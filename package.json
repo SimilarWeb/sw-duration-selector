@@ -1,0 +1,10 @@
+{
+  "name": "similarweb-pro",
+  "version": "1.0.0",
+  "devDependencies": {
+    "bower": "~1.4.1"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  }
+}

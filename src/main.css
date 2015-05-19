@@ -1,0 +1,14 @@
+.sw-duration-selector .left, .sw-duration-selector .right {
+  display: inline-block; }
+
+.sw-duration-selector .years {
+  text-align: center; }
+
+.sw-duration-selector .months {
+  width: 150px; }
+  .sw-duration-selector .months .month {
+    display: inline-block;
+    text-align: center;
+    width: 50px; }
+
+/*# sourceMappingURL=main.css.map */

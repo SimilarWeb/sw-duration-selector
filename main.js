@@ -26,7 +26,7 @@ angular.module('main', ['sw.components'])
 					value: "custom"
 				}
 			],
-			minDate: moment(),
-			maxDate: moment()
+			minDate: moment([2013, 1, 1]),
+			maxDate: moment([2013, 5, 1])
 		}
 	});

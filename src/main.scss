@@ -1,0 +1,16 @@
+.sw-duration-selector {
+  .left, .right {
+    display: inline-block;
+  }
+  .years {
+    text-align: center;
+  }
+  .months {
+    width: 150px;
+    .month {
+      display: inline-block;
+      text-align: center;
+      width: 50px;
+    }
+  }
+}

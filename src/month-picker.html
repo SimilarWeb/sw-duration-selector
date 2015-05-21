@@ -1,0 +1,8 @@
+<div class="">
+    <select class="years" ng-model="selectedYear">
+        <option ng-repeat="year in years" value="{{year}}" ng-selected="year == selectedYear">{{year}}</option>
+    </select>
+    <div class="months">
+        <div class="month" ng-class="{selected: month == selectedDate.month && selectedYear == selectedDate.year, disabled: !allowedMonth(month)}" ng-repeat="month in months" ng-click="selectDate(month)">{{month | monthShort}}</div>
+    </div>
+</div>

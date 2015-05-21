@@ -1,4 +1,15 @@
 .sw-duration-selector {
+  .selected {
+    color: red;
+  }
+  .disabled {
+    color: grey;
+  }
+  .presets {
+    list-style: none;
+    .preset {
+    }
+  }
   .left, .right {
     display: inline-block;
   }

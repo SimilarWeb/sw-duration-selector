@@ -1,3 +1,12 @@
+.sw-duration-selector .selected {
+  color: red; }
+
+.sw-duration-selector .disabled {
+  color: grey; }
+
+.sw-duration-selector .presets {
+  list-style: none; }
+
 .sw-duration-selector .left, .sw-duration-selector .right {
   display: inline-block; }
 

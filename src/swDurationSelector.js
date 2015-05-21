@@ -2,43 +2,61 @@
  * Created by vlads on 18/5/2015.
  */
 angular.module('sw.components', [])
-	.directive('monthView', function($document) {
-		return {
-			restrict: 'AE',
-			scope: {
-				options: '=',
-				ngModel: '='
-			},
-			templateUrl: 'src/month-view.html',
-			replace: true,
-			compile: function CompilingFunction($templateElement, $templateAttributes) {
-				return function LinkingFunction($scope, $linkElement, $linkAttributes) {
-					$scope.months = moment.monthsShort();
-				};
-			}
-		}
+	.filter('monthShort', function() {
+		return function(value) {
+			return moment.monthsShort(value);
+		};
 	})
-	.directive('customSelector', function($document) {
+	.directive('monthPicker', function () {
 		return {
 			restrict: 'AE',
-			scope: {
-				options: '=',
-				ngModel: '='
-			},
-			templateUrl: 'src/custom-selector.html',
-			replace: true,
 			require: '^swDurationSelector',
-			controller: function ($scope) {
-
+			scope: {
+				type: '=',
+				ngModel: '='
 			},
-			compile: function CompilingFunction($templateElement, $templateAttributes) {
-				return function LinkingFunction($scope, $linkElement, $linkAttributes, mainCtrl) {
-					$scope.years = ['2013', '2014', '2015'];
+			templateUrl: 'src/month-picker.html',
+			replace: true,
+			compile: function ($templateElement, $templateAttributes) {
+				var months = Array.apply(null, {length: 12}).map(Number.call, Number),//moment.monthsShort(),// array of months ['Jan', 'Feb',..]
+					yearsArray = function (start, end) { // array of years [2013, 2014, ..]
+						return Array.apply(null, {length: end - start + 1}).map(function(num, index) {
+							return start + index;
+						});
+					};
+				return function ($scope, $linkElement, $linkAttributes, mainCtrl) {
+					var type = $linkAttributes.type,
+						model = mainCtrl.model,
+						minDate = mainCtrl.minDate,
+						maxDate = mainCtrl.maxDate;
+					// populate month-picker years and months
+					$scope.years = yearsArray(minDate.year(), maxDate.year());
+					$scope.months = months;
+
+					$scope.selectedYear = model[type + 'Date'].year();
+					$scope.selectedDate = {
+						year: model[type + 'Date'].year(),
+						month: model[type + 'Date'].month()
+					};
+
+					$scope.selectDate = function (month) {
+						$scope.selectedDate = {
+							year: $scope.selectedYear,
+							month: month
+						};
+						model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
+						console.log(model);
+					};
+
+					$scope.allowedMonth = function (month) {
+						var date = moment().year($scope.selectedYear).month(month).startOf('month');
+						return date.isAfter(minDate) && date.isBefore(maxDate);
+					};
 				};
 			}
 		}
 	})
-	.directive('swDurationSelector', function($document) {
+	.directive('swDurationSelector', function ($document) {
 		return {
 			restrict: 'AE',
 			scope: {
@@ -48,12 +66,14 @@ angular.module('sw.components', [])
 			templateUrl: 'src/sw-duration-selector.html',
 			replace: true,
 			controller: function ($scope) {
-				this.dateRange = {
-					min: $scope.options.minDate,
-					max: $scope.options.maxDate
-				};
+				var model = $scope.ngModel.split('-');
+				this.minDate = $scope.options.minDate;
+				this.maxDate = $scope.options.maxDate;
+				this.model = model.length > 1
+					? {startDate: moment(model[0]), endDate: moment(model[1])}
+					: {startDate: this.maxDate, endDate: this.maxDate};
 			},
-			compile: function CompilingFunction($templateElement, $templateAttributes) {
+			compile: function ($templateElement, $templateAttributes) {
 				// === CompilingFunction === //
 				// Logic is executed once (1) for every instance of ui-jq in your original UNRENDERED template.
 				// Scope is UNAVAILABLE as the templates are only being cached.
@@ -62,7 +82,7 @@ angular.module('sw.components', [])
 				// Angular is caching the templates, now is a good time to inject new angular templates
 				//   as children or future siblings to automatically run..
 
-				return function LinkingFunction($scope, $linkElement, $linkAttributes) {
+				return function ($scope, $linkElement, $linkAttributes) {
 					// === LinkingFunction === //
 					// Logic is executed once (1) for every RENDERED instance.
 					// Once for each row in an ng-repeat when the row is created.

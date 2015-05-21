@@ -56,6 +56,11 @@ angular.module('sw.components', [])
 			return moment.monthsShort(value);
 		};
 	})
+	.filter('startEndDate', function() {
+		return function(value) {
+			return moment().year(value.year).month(value.month).format('MMMM YYYY');
+		};
+	})
 	.directive('monthPicker', function () {
 		return {
 			restrict: 'AE',
@@ -99,7 +104,27 @@ angular.module('sw.components', [])
 
 					$scope.allowedMonth = function (month) {
 						var date = moment().year($scope.selectedYear).month(month).startOf('month');
-						return date.isAfter(minDate) && date.isBefore(maxDate);
+						return date.isBetween(minDate, maxDate);
+					};
+
+
+					$scope.allowedYear = function (year) {
+						var date = moment().year(year),
+							result;
+						switch (type) {
+							case 'start':
+								result = date.isBetween(minDate.clone().startOf('year'), model.endDate.clone().endOf('year'));
+								break;
+							case 'end':
+								result = date.isBetween(model.startDate.clone().startOf('year'), maxDate.clone().endOf('year'));
+								break;
+						}
+						return result;
+					};
+
+					$scope.inRange = function (month) {
+						var date = moment().year($scope.selectedYear).month(month);
+						return date.isBetween(model.startDate, model.endDate, 'month');
 					};
 				};
 			}

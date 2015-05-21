@@ -42,32 +42,59 @@
     display: inline-block;
     float: left;
     height: 100%;
-    padding: 15px 7px;
+    padding: 15px 7px 3px;
     .picker {
-      line-height: 38px;
+      line-height: 39px;
       display: inline-block;
-      width: 225px;
-      border: 1px solid #DDDDDD;
-      padding: 3px;
-      margin: 0 4px;
+      width: 241px;
+      .box {
+        border: 1px solid #DDDDDD;
+        padding: 3px;
+        margin: 0 4px;
+      }
+      .date {
+        text-align: center;
+        line-height: 46px;
+      }
       .month {
         display: inline-block;
         text-align: center;
-        width: 75px;
+        width: 72px;
         cursor: pointer;
         &.disabled, &.selected {
           cursor: default;
+          pointer-events: none;
+        }
+      }
+    }
+    .years {
+      font-size: 16px;
+      margin-bottom: 5px;
+      span {
+        text-align: center;
+        display: inline-block;
+        width: 72px;
+        color: #6F6F6F;
+        cursor: default;
+        &:first-child, &:last-child {
+          color: #33A1D2;
+          cursor: pointer;
+          &.disabled {
+            cursor: default;
+            pointer-events: none;
+            color: #2B3D52;
+          }
         }
       }
     }
     .left {
       .month.selected {
-        border-radius: 15px 0 0 15px;
+        border-radius: 17px 0 0 17px;
       }
     }
     .right {
       .month.selected {
-        border-radius: 0 15px 15px 0;
+        border-radius: 0 17px 17px 0;
       }
     }
   }

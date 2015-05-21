@@ -36,25 +36,46 @@
     display: inline-block;
     float: left;
     height: 100%;
-    padding: 15px 7px; }
+    padding: 15px 7px 3px; }
     .sw-duration-selector .custom-picker .picker {
-      line-height: 38px;
+      line-height: 39px;
       display: inline-block;
-      width: 225px;
-      border: 1px solid #DDDDDD;
-      padding: 3px;
-      margin: 0 4px; }
+      width: 241px; }
+      .sw-duration-selector .custom-picker .picker .box {
+        border: 1px solid #DDDDDD;
+        padding: 3px;
+        margin: 0 4px; }
+      .sw-duration-selector .custom-picker .picker .date {
+        text-align: center;
+        line-height: 46px; }
       .sw-duration-selector .custom-picker .picker .month {
         display: inline-block;
         text-align: center;
-        width: 75px;
+        width: 72px;
         cursor: pointer; }
         .sw-duration-selector .custom-picker .picker .month.disabled, .sw-duration-selector .custom-picker .picker .month.selected {
-          cursor: default; }
+          cursor: default;
+          pointer-events: none; }
+    .sw-duration-selector .custom-picker .years {
+      font-size: 16px;
+      margin-bottom: 5px; }
+      .sw-duration-selector .custom-picker .years span {
+        text-align: center;
+        display: inline-block;
+        width: 72px;
+        color: #6F6F6F;
+        cursor: default; }
+        .sw-duration-selector .custom-picker .years span:first-child, .sw-duration-selector .custom-picker .years span:last-child {
+          color: #33A1D2;
+          cursor: pointer; }
+          .sw-duration-selector .custom-picker .years span:first-child.disabled, .sw-duration-selector .custom-picker .years span:last-child.disabled {
+            cursor: default;
+            pointer-events: none;
+            color: #2B3D52; }
     .sw-duration-selector .custom-picker .left .month.selected {
-      border-radius: 15px 0 0 15px; }
+      border-radius: 17px 0 0 17px; }
     .sw-duration-selector .custom-picker .right .month.selected {
-      border-radius: 0 15px 15px 0; }
+      border-radius: 0 17px 17px 0; }
   .sw-duration-selector .selected {
     background: #447FBD;
     color: #ffffff; }

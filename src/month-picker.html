@@ -1,8 +1,19 @@
 <div class="picker">
-    <select class="years" ng-model="selectedYear">
-        <option ng-repeat="year in years" value="{{year}}" ng-selected="year == selectedYear">{{year}}</option>
-    </select>
-    <div class="months">
-        <div class="month" ng-class="{selected: month == selectedDate.month && selectedYear == selectedDate.year, disabled: !allowedMonth(month)}" ng-repeat="month in months" ng-click="selectDate(month)">{{month | monthShort}}</div>
+    <div class="box">
+        <div class="years">
+            <span ng-class="{disabled: !allowedYear(selectedYear - 1)}" ng-click="selectedYear=selectedYear-1">&lang; {{selectedYear - 1}}</span>
+            <span>{{selectedYear}}</span>
+            <span ng-class="{disabled: !allowedYear(selectedYear + 1)}" ng-click="selectedYear=selectedYear+1">{{selectedYear + 1}} &rang;</span>
+            <!--<select ng-model="selectedYear">-->
+                <!--<option ng-repeat="year in years" value="{{year}}" ng-selected="year == selectedYear">{{year}}</option>-->
+            <!--</select>-->
+        </div>
+        <div class="months">
+            <div class="month" ng-class="{selected: month == selectedDate.month && selectedYear == selectedDate.year, range: inRange(month), disabled: !allowedMonth(month)}" ng-repeat="month in months" ng-click="selectDate(month)">{{month | monthShort}}</div>
+        </div>
+    </div>
+    <div class="date">
+        <span class="disabled">{{type == 'start' ? 'From ' : 'To '}}</span>
+        <span style="font-weight: 500">{{selectedDate | startEndDate}}</span>
     </div>
 </div>

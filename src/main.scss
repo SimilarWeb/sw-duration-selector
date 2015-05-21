@@ -1,27 +1,86 @@
 .sw-duration-selector {
-  .selected {
-    color: red;
-  }
-  .disabled {
-    color: grey;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  .popup {
+    position: absolute;
+    right: 10px;
+    background: #ffffff;
+    color: #2B3D52;
+    border: 1px solid #ABB1B8;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);
+    border-radius: 3px;
+    box-sizing: border-box;
+    width: 160px;
+    &.custom {
+      width: 660px;
+      .presets {
+        border-left: 1px solid #DDDDDD;
+      }
+    }
   }
   .presets {
-    list-style: none;
-    .preset {
-    }
-  }
-  .left, .right {
     display: inline-block;
-  }
-  .years {
-    text-align: center;
-  }
-  .months {
-    width: 150px;
-    .month {
-      display: inline-block;
-      text-align: center;
-      width: 50px;
+    box-sizing: border-box;
+    width: 158px;;
+    list-style: none;
+    padding: 3px 0;
+    margin: 0;
+    .preset {
+      line-height: 38px;
+      vertical-align: middle;
+      padding: 0 15px;
+      cursor: pointer;
+      &.disabled, &.selected {
+        cursor: default;
+      }
     }
+  }
+  .custom-picker {
+    width: 500px;
+    box-sizing: border-box;
+    display: inline-block;
+    float: left;
+    height: 100%;
+    padding: 15px 7px;
+    .picker {
+      line-height: 38px;
+      display: inline-block;
+      width: 225px;
+      border: 1px solid #DDDDDD;
+      padding: 3px;
+      margin: 0 4px;
+      .month {
+        display: inline-block;
+        text-align: center;
+        width: 75px;
+        cursor: pointer;
+        &.disabled, &.selected {
+          cursor: default;
+        }
+      }
+    }
+    .left {
+      .month.selected {
+        border-radius: 15px 0 0 15px;
+      }
+    }
+    .right {
+      .month.selected {
+        border-radius: 0 15px 15px 0;
+      }
+    }
+  }
+
+  .selected {
+    background: #447FBD;
+    color: #ffffff;
+  }
+  .disabled {
+    opacity: 0.5;
+  }
+
+  .range {
+    background: #ECEEF8;
   }
 }

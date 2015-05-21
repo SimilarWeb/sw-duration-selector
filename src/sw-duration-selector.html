@@ -1,12 +1,14 @@
 <div class="{{options.cssClass}}">
     <input type="text" ng-model="ngModel" ng-click="showPresets = !showPresets" readonly>
-    <ul class="presets" ng-show="showPresets">
-        <li class="preset" ng-repeat="preset in options.presets" ng-click="updateModel(preset)" ng-class="{selected: preset.value == ngModel, disabled: !preset.enabled}">
-            {{preset.buttonText}}
-        </li>
-    </ul>
-    <div class="custom" ng-show="showPresets && showCustom">
-        <month-picker class="left" type="start"></month-picker>
-        <month-picker class="right" type="end"></month-picker>
+    <div class="popup" ng-class="{custom:showCustom}" ng-show="showPresets">
+        <div class="custom-picker" ng-show="showPresets && showCustom">
+            <month-picker class="left" type="start"></month-picker>
+            <month-picker class="right" type="end"></month-picker>
+        </div>
+        <ul class="presets">
+            <li class="preset" ng-repeat="preset in options.presets" ng-click="updateModel(preset)" ng-class="{selected: preset.value == ngModel, disabled: !preset.enabled}">
+                {{preset.buttonText}}
+            </li>
+        </ul>
     </div>
 </div>

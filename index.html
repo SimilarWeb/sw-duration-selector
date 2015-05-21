@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="src/main.css">
 </head>
 <body ng-app="main">
-    <div ng-controller="mainCtrl">
-        <sw-duration-selector ng-model="duration" options="options"></sw-duration-selector>
+    <div ng-controller="mainCtrl" style="float: right;">
+        <sw-duration-selector ng-model="duration" min-date="{{minDate}}" max-date="{{maxDate}}"></sw-duration-selector>
     </div>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/moment/moment.js"></script>

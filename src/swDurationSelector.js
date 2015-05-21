@@ -2,6 +2,55 @@
  * Created by vlads on 18/5/2015.
  */
 angular.module('sw.components', [])
+	.constant('swDurationConfig', {
+		cssClass: 'sw-duration-selector',
+		presets: [
+			{
+				buttonText: "Last 28 days",
+				displayText: "Last 28 Days (As of May 15)",
+				enabled: true,
+				value: "28d"
+			},
+			{
+				buttonText: "1 month",
+				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
+				enabled: true,
+				value: "1m"
+			},
+			{
+				buttonText: "3 months",
+				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
+				enabled: true,
+				value: "3m"
+			},
+			{
+				buttonText: "6 months",
+				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
+				enabled: true,
+				value: "6m"
+			},
+			{
+				buttonText: "12 months",
+				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
+				enabled: true,
+				value: "12m"
+			},
+			{
+				buttonText: "24 months",
+				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
+				enabled: false,
+				value: "24m"
+			},
+			{
+				buttonText: "Custom Range",
+				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
+				enabled: true,
+				value: "custom"
+			}
+		],
+		presetFormat: 'MMM, YYYY',
+		customFormat: 'MMM DD'
+	})
 	.filter('monthShort', function() {
 		return function(value) {
 			return moment.monthsShort(value);
@@ -12,25 +61,25 @@ angular.module('sw.components', [])
 			restrict: 'AE',
 			require: '^swDurationSelector',
 			scope: {
-				type: '=',
-				ngModel: '='
+				type: '@' //start or end
 			},
 			templateUrl: 'src/month-picker.html',
 			replace: true,
 			compile: function ($templateElement, $templateAttributes) {
-				var months = Array.apply(null, {length: 12}).map(Number.call, Number),//moment.monthsShort(),// array of months ['Jan', 'Feb',..]
-					yearsArray = function (start, end) { // array of years [2013, 2014, ..]
+				var months = Array.apply(null, {length: 12}).map(Number.call, Number),// array of months [0, 1,..]
+					years = function (start, end) { // array of years [2013, 2014, ..]
 						return Array.apply(null, {length: end - start + 1}).map(function(num, index) {
 							return start + index;
 						});
 					};
-				return function ($scope, $linkElement, $linkAttributes, mainCtrl) {
-					var type = $linkAttributes.type,
-						model = mainCtrl.model,
-						minDate = mainCtrl.minDate,
-						maxDate = mainCtrl.maxDate;
+				return function ($scope, $linkElement, $linkAttributes, ctrl) {
+					var type = $scope.type,
+						model = ctrl.model,
+						minDate = ctrl.minDate,
+						maxDate = ctrl.maxDate;
+
 					// populate month-picker years and months
-					$scope.years = yearsArray(minDate.year(), maxDate.year());
+					$scope.years = years(minDate.year(), maxDate.year());
 					$scope.months = months;
 
 					$scope.selectedYear = model[type + 'Date'].year();
@@ -45,7 +94,7 @@ angular.module('sw.components', [])
 							month: month
 						};
 						model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
-						console.log(model);
+						//$scope.ngModel = model.startDate.format('YYYY.MM')+'-'+model.endDate.format('YYYY.MM');
 					};
 
 					$scope.allowedMonth = function (month) {
@@ -56,42 +105,27 @@ angular.module('sw.components', [])
 			}
 		}
 	})
-	.directive('swDurationSelector', function ($document) {
+	.directive('swDurationSelector', function (swDurationConfig, $document) {
 		return {
 			restrict: 'AE',
 			scope: {
-				options: '=',
-				ngModel: '='
+				minDate: '@',
+				maxDate: '@',
+				ngModel: '=' //{duration: '3m', startDate: '', endDate: ''}//
 			},
 			templateUrl: 'src/sw-duration-selector.html',
 			replace: true,
 			controller: function ($scope) {
 				var model = $scope.ngModel.split('-');
-				this.minDate = $scope.options.minDate;
-				this.maxDate = $scope.options.maxDate;
+				this.minDate = moment($scope.minDate);
+				this.maxDate = moment($scope.maxDate);
 				this.model = model.length > 1
 					? {startDate: moment(model[0]), endDate: moment(model[1])}
 					: {startDate: this.maxDate, endDate: this.maxDate};
 			},
-			compile: function ($templateElement, $templateAttributes) {
-				// === CompilingFunction === //
-				// Logic is executed once (1) for every instance of ui-jq in your original UNRENDERED template.
-				// Scope is UNAVAILABLE as the templates are only being cached.
-				// You CAN examine the DOM and cache information about what variables
-				//   or expressions will be used, but you cannot yet figure out their values.
-				// Angular is caching the templates, now is a good time to inject new angular templates
-				//   as children or future siblings to automatically run..
-
-				return function ($scope, $linkElement, $linkAttributes) {
-					// === LinkingFunction === //
-					// Logic is executed once (1) for every RENDERED instance.
-					// Once for each row in an ng-repeat when the row is created.
-					// Note that ng-if or ng-switch may also affect if this is executed.
-					// Scope IS available because controller logic has finished executing.
-					// All variables and expression values can finally be determined.
-					// Angular is rendering cached templates. It's too late to add templates for angular
-					//  to automatically run. If you MUST inject new templates, you must $compile them manually.
-
+			compile: function compile ($templateElement, $templateAttributes) {
+				return function link ($scope, $linkElement, $linkAttributes) {
+					$scope.options = swDurationConfig;
 					$scope.updateModel = function (preset) {
 						if (preset.value === 'custom') {
 							$scope.showCustom = true;

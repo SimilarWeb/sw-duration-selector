@@ -40,12 +40,6 @@ angular.module('sw.components', [])
 				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
 				enabled: false,
 				value: "24m"
-			},
-			{
-				buttonText: "Custom Range",
-				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
-				enabled: true,
-				value: "custom"
 			}
 		],
 		presetFormat: 'MMM, YYYY',
@@ -106,7 +100,6 @@ angular.module('sw.components', [])
 						var date = moment().year($scope.selectedYear).month(month).startOf('month');
 						return date.isBetween(minDate, maxDate);
 					};
-
 
 					$scope.allowedYear = function (year) {
 						var date = moment().year(year),

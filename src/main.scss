@@ -31,7 +31,7 @@
       vertical-align: middle;
       padding: 0 15px;
       cursor: pointer;
-      &.disabled, &.selected {
+      &.disabled {
         cursor: default;
       }
     }

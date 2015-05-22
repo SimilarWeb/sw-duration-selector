@@ -28,7 +28,7 @@
       vertical-align: middle;
       padding: 0 15px;
       cursor: pointer; }
-      .sw-duration-selector .presets .preset.disabled, .sw-duration-selector .presets .preset.selected {
+      .sw-duration-selector .presets .preset.disabled {
         cursor: default; }
   .sw-duration-selector .custom-picker {
     width: 500px;

@@ -6,8 +6,11 @@
             <month-picker class="right" type="end"></month-picker>
         </div>
         <ul class="presets">
-            <li class="preset" ng-repeat="preset in options.presets" ng-click="updateModel(preset)" ng-class="{selected: preset.value == ngModel, disabled: !preset.enabled}">
+            <li class="preset" ng-repeat="preset in options.presets" ng-click="updateModel(preset)" ng-class="{selected: preset.value == ngModel && !showCustom, disabled: !preset.enabled}">
                 {{preset.buttonText}}
+            </li>
+            <li class="preset" ng-click="updateModel({value: 'custom'})" ng-class="{selected: showCustom}">
+                {{showCustom ? 'Click to apply' : 'Custom Range'}}
             </li>
         </ul>
     </div>

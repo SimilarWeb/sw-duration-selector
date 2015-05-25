@@ -1,16 +1,16 @@
-<div class="picker">
-    <div class="box">
-        <div class="years">
-            <span ng-class="{disabled: !allowedYear(selectedYear - 1)}" ng-click="selectedYear=selectedYear-1">&lang; {{selectedYear - 1}}</span>
-            <span>{{selectedYear}}</span>
-            <span ng-class="{disabled: !allowedYear(selectedYear + 1)}" ng-click="selectedYear=selectedYear+1">{{selectedYear + 1}} &rang;</span>
+<div class="monthPicker">
+    <div class="monthPicker-box">
+        <div class="monthPicker-years">
+            <span class="monthPicker-year" ng-class="{'is-disabled': !allowedYear(selectedYear - 1)}" ng-click="selectedYear=selectedYear-1">&lang; {{selectedYear - 1}}</span>
+            <span class="monthPicker-year">{{selectedYear}}</span>
+            <span class="monthPicker-year" ng-class="{'is-disabled': !allowedYear(selectedYear + 1)}" ng-click="selectedYear=selectedYear+1">{{selectedYear + 1}} &rang;</span>
         </div>
-        <div class="months">
-            <div class="month" ng-class="{selected: month == selectedDate.month && selectedYear == selectedDate.year, range: inRange(month), disabled: !allowedMonth(month)}" ng-repeat="month in months" ng-click="selectDate(month)">{{month | monthShort}}</div>
+        <div class="monthPicker-months">
+            <div class="monthPicker-month" ng-class="{'is-selected': month == selectedDate.month && selectedYear == selectedDate.year, 'is-range': inRange(month), 'is-disabled': !allowedMonth(month)}" ng-repeat="month in months" ng-click="selectDate(month)">{{month | monthShort}}</div>
         </div>
     </div>
-    <div class="date">
-        <span class="disabled">{{type == 'start' ? 'From ' : 'To '}}</span>
+    <div class="monthPicker-date">
+        <span class="'is-disabled'">{{type == 'start' ? 'From ' : 'To '}}</span>
         <span style="font-weight: 500">{{selectedDate | startEndDate}}</span>
     </div>
 </div>

@@ -1,113 +1,117 @@
-.sw-duration-selector {
+.durationSelector {
+  position: relative;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 14px;
-  .popup {
-    position: absolute;
-    right: 10px;
-    background: #ffffff;
-    color: #2B3D52;
-    border: 1px solid #ABB1B8;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);
-    border-radius: 3px;
-    box-sizing: border-box;
-    width: 160px;
-    &.custom {
-      width: 660px;
-      .presets {
-        border-left: 1px solid #DDDDDD;
-      }
+}
+.durationSelector-popup {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  background: #ffffff;
+  color: #2B3D52;
+  border: 1px solid #ABB1B8;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);
+  border-radius: 3px;
+  box-sizing: border-box;
+  width: 160px;
+  &.custom {
+    width: 660px;
+    .durationSelector-presets {
+      border-left: 1px solid #DDDDDD;
     }
   }
-  .presets {
-    display: inline-block;
-    box-sizing: border-box;
-    width: 158px;;
-    list-style: none;
-    padding: 3px 0;
-    margin: 0;
-    .preset {
-      line-height: 38px;
-      vertical-align: middle;
-      padding: 0 15px;
-      cursor: pointer;
-      &.disabled {
-        cursor: default;
-      }
+}
+.durationSelector-presets {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 158px;;
+  list-style: none;
+  padding: 3px 0;
+  margin: 0;
+}
+.durationSelector-preset {
+  line-height: 38px;
+  vertical-align: middle;
+  padding: 0 15px;
+  cursor: pointer;
+  &.is-disabled {
+    cursor: default;
+  }
+}
+.durationSelector-customPicker {
+  width: 500px;
+  box-sizing: border-box;
+  display: inline-block;
+  float: left;
+  height: 100%;
+  padding: 15px 7px 3px;
+  .left {
+    .monthPicker-month.is-selected {
+      border-radius: 17px 0 0 17px;
     }
   }
-  .custom-picker {
-    width: 500px;
-    box-sizing: border-box;
-    display: inline-block;
-    float: left;
-    height: 100%;
-    padding: 15px 7px 3px;
-    .picker {
-      line-height: 39px;
-      display: inline-block;
-      width: 241px;
-      .box {
-        border: 1px solid #DDDDDD;
-        padding: 3px;
-        margin: 0 4px;
-      }
-      .date {
-        text-align: center;
-        line-height: 46px;
-      }
-      .month {
-        display: inline-block;
-        text-align: center;
-        width: 72px;
-        cursor: pointer;
-        &.disabled, &.selected {
-          cursor: default;
-          pointer-events: none;
-        }
-      }
-    }
-    .years {
-      font-size: 16px;
-      margin-bottom: 5px;
-      span {
-        text-align: center;
-        display: inline-block;
-        width: 72px;
-        color: #6F6F6F;
-        cursor: default;
-        &:first-child, &:last-child {
-          color: #33A1D2;
-          cursor: pointer;
-          &.disabled {
-            cursor: default;
-            pointer-events: none;
-            color: #2B3D52;
-          }
-        }
-      }
-    }
-    .left {
-      .month.selected {
-        border-radius: 17px 0 0 17px;
-      }
-    }
-    .right {
-      .month.selected {
-        border-radius: 0 17px 17px 0;
-      }
+  .right {
+    .monthPicker-month.is-selected {
+      border-radius: 0 17px 17px 0;
     }
   }
+}
 
-  .selected {
-    background: #447FBD;
-    color: #ffffff;
-  }
-  .disabled {
-    opacity: 0.5;
-  }
 
-  .range {
-    background: #ECEEF8;
+//* Month Picker
+.monthPicker {
+  line-height: 39px;
+  display: inline-block;
+  width: 241px;
+}
+.monthPicker-box {
+  border: 1px solid #DDDDDD;
+  padding: 3px;
+  margin: 0 4px;
+}
+.monthPicker-date {
+  text-align: center;
+  line-height: 46px;
+}
+.monthPicker-month {
+  display: inline-block;
+  text-align: center;
+  width: 72px;
+  cursor: pointer;
+  &.is-disabled, &.is-selected {
+    cursor: default;
+    pointer-events: none;
   }
+}
+.monthPicker-years {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.monthPicker-year {
+  text-align: center;
+  display: inline-block;
+  width: 72px;
+  color: #6F6F6F;
+  cursor: default;
+  &:first-child, &:last-child {
+    color: #33A1D2;
+    cursor: pointer;
+    &.is-disabled {
+      cursor: default;
+      pointer-events: none;
+      color: #2B3D52;
+    }
+  }
+}
+.is-selected {
+  background: #447FBD;
+  color: #ffffff;
+}
+.is-disabled {
+  opacity: 0.5;
+}
+
+.is-range {
+  background: #ECEEF8;
 }

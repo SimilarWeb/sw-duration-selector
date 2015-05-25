@@ -3,7 +3,7 @@
  */
 angular.module('sw.components', [])
 	.constant('swDurationConfig', {
-		cssClass: 'sw-duration-selector',
+		cssClass: 'durationSelector',
 		presets: [
 			{
 				buttonText: "Last 28 days",

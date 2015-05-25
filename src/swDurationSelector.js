@@ -4,44 +4,6 @@
 angular.module('sw.components', [])
 	.constant('swDurationConfig', {
 		cssClass: 'durationSelector',
-		presets: [
-			{
-				buttonText: "Last 28 days",
-				displayText: "Last 28 Days (As of May 15)",
-				enabled: true,
-				value: "28d"
-			},
-			{
-				buttonText: "1 month",
-				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
-				enabled: true,
-				value: "1m"
-			},
-			{
-				buttonText: "3 months",
-				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
-				enabled: true,
-				value: "3m"
-			},
-			{
-				buttonText: "6 months",
-				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
-				enabled: true,
-				value: "6m"
-			},
-			{
-				buttonText: "12 months",
-				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
-				enabled: true,
-				value: "12m"
-			},
-			{
-				buttonText: "24 months",
-				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
-				enabled: false,
-				value: "24m"
-			}
-		],
 		presetFormat: 'MMM, YYYY',
 		customFormat: 'MMM DD'
 	})
@@ -129,6 +91,7 @@ angular.module('sw.components', [])
 			scope: {
 				minDate: '@',
 				maxDate: '@',
+				presets: '=',
 				ngModel: '=' //{duration: '3m', startDate: '', endDate: ''}//
 			},
 			templateUrl: 'src/sw-duration-selector.html',
@@ -143,6 +106,7 @@ angular.module('sw.components', [])
 			},
 			compile: function compile ($templateElement, $templateAttributes) {
 				return function link ($scope, $linkElement, $linkAttributes) {
+					//$scope.presets = angular.fromJson($scope.presets);
 					$scope.options = swDurationConfig;
 					$scope.updateModel = function (preset) {
 						if (preset.value === 'custom') {

@@ -46,11 +46,11 @@ angular.module('sw.components', [])
 					$scope.years = years(minDate.year(), maxDate.year());
 					$scope.months = months;
 
-					$scope.selectedYear = model[type + 'Date'].year();
 					$scope.selectedDate = {
 						year: model[type + 'Date'].year(),
 						month: model[type + 'Date'].month()
 					};
+					$scope.selectedYear = $scope.selectedDate.year;
 
 					$scope.selectDate = function (month) {
 						$scope.selectedDate = {
@@ -59,16 +59,6 @@ angular.module('sw.components', [])
 						};
 						model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
 						ctrl.updateModel(model);
-					};
-
-					$scope.allowedMonth = function (month) {
-						var date = moment().year($scope.selectedYear).month(month);
-						return type === 'start' ? monthInRange(date, minDate, model.endDate) : monthInRange(date, model.startDate, maxDate);
-					};
-
-					$scope.inRange = function (month) {
-						var date = moment().year($scope.selectedYear).month(month);
-						return monthInRange(date, model.startDate, model.endDate);
 					};
 
 					$scope.allowedYear = function (year) {
@@ -83,6 +73,16 @@ angular.module('sw.components', [])
 								break;
 						}
 						return result;
+					};
+
+					$scope.allowedMonth = function (month) {
+						var date = moment().year($scope.selectedYear).month(month);
+						return type === 'start' ? monthInRange(date, minDate, model.endDate) : monthInRange(date, model.startDate, maxDate);
+					};
+
+					$scope.inRangeMonth = function (month) {
+						var date = moment().year($scope.selectedYear).month(month);
+						return monthInRange(date, model.startDate, model.endDate);
 					};
 				};
 			}

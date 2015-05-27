@@ -32,6 +32,9 @@ angular.module('sw.components', [])
 						return Array.apply(null, {length: end - start + 1}).map(function(num, index) {
 							return start + index;
 						});
+					},
+					monthInRange = function (moment, start, end) {
+						return moment.isBetween(start, end, 'month') || moment.isSame(start, 'month') || moment.isSame(end, 'month');
 					};
 				return function ($scope, $linkElement, $linkAttributes, ctrl) {
 					var type = $scope.type,
@@ -55,12 +58,17 @@ angular.module('sw.components', [])
 							month: month
 						};
 						model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
-						//$scope.ngModel = model.startDate.format('YYYY.MM')+'-'+model.endDate.format('YYYY.MM');
+						ctrl.updateModel(type, model[type + 'Date']);
 					};
 
 					$scope.allowedMonth = function (month) {
-						var date = moment().year($scope.selectedYear).month(month).startOf('month');
-						return date.isBetween(minDate, maxDate);
+						var date = moment().year($scope.selectedYear).month(month);
+						return type === 'start' ? monthInRange(date, minDate, model.endDate) : monthInRange(date, model.startDate, maxDate);
+					};
+
+					$scope.inRange = function (month) {
+						var date = moment().year($scope.selectedYear).month(month);
+						return monthInRange(date, model.startDate, model.endDate);
 					};
 
 					$scope.allowedYear = function (year) {
@@ -75,11 +83,6 @@ angular.module('sw.components', [])
 								break;
 						}
 						return result;
-					};
-
-					$scope.inRange = function (month) {
-						var date = moment().year($scope.selectedYear).month(month);
-						return date.isBetween(model.startDate, model.endDate, 'month');
 					};
 				};
 			}
@@ -97,24 +100,33 @@ angular.module('sw.components', [])
 			templateUrl: 'src/sw-duration-selector.html',
 			replace: true,
 			controller: function ($scope) {
-				var model = $scope.ngModel.split('-');
+				var model = $scope.ngModel.value.split('-');
 				this.minDate = moment($scope.minDate);
 				this.maxDate = moment($scope.maxDate);
 				this.model = model.length > 1
 					? {startDate: moment(model[0]), endDate: moment(model[1])}
 					: {startDate: this.maxDate, endDate: this.maxDate};
+				this.updateModel = function (type, value) {
+					$scope.customModel[type+'Date'] = value;
+				}
 			},
 			compile: function compile ($templateElement, $templateAttributes) {
 				return function link ($scope, $linkElement, $linkAttributes) {
-					//$scope.presets = angular.fromJson($scope.presets);
+					$scope.ngModel = $scope.presets.find(function(element) {return element.value == $scope.ngModel.value;});
+
 					$scope.options = swDurationConfig;
 					$scope.updateModel = function (preset) {
 						if (preset.value === 'custom') {
 							$scope.showCustom = true;
+							preset.value = 'apply';
+						}
+						else if (preset.value === 'apply') {
+							$scope.showCustom = false;
+							preset.value = 'custom';
 						}
 						else {
 							// change model to one of the presets
-							$scope.ngModel = preset.value;
+							$scope.ngModel = preset;
 							// and hide presets popup
 							$scope.showPresets = false;
 							$scope.showCustom = false;

@@ -1,6 +1,29 @@
 /**
  * Created by vlads on 18/5/2015.
  */
+if (!Array.prototype.find) {
+	Array.prototype.find = function(predicate) {
+		if (this == null) {
+			throw new TypeError('Array.prototype.find called on null or undefined');
+		}
+		if (typeof predicate !== 'function') {
+			throw new TypeError('predicate must be a function');
+		}
+		var list = Object(this);
+		var length = list.length >>> 0;
+		var thisArg = arguments[1];
+		var value;
+
+		for (var i = 0; i < length; i++) {
+			value = list[i];
+			if (predicate.call(thisArg, value, i, list)) {
+				return value;
+			}
+		}
+		return undefined;
+	};
+}
+
 angular.module('main', ['ui.router', 'sw.components'])
 	.config(function($stateProvider) {
 		$stateProvider
@@ -30,7 +53,7 @@ angular.module('main', ['ui.router', 'sw.components'])
 		});
 	})
 	.controller('mainCtrl', function ($scope, $state) {
-		$scope.duration = $state.params.duration;//'2015.01-2015.04'
+		$scope.duration = {value: $state.params.duration};//'2015.01-2015.04'
 		$scope.minDate = '2011-01-01T00:00:00';
 		$scope.maxDate = '2015-04-30T00:00:00';
 		$scope.presets = [

@@ -8,10 +8,29 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'src/main.css': 'src/main.scss'
+                    'dist/main.css': 'src/main.scss'
                 }
             }
         },
+
+        ngtemplates: {
+            'sw.components': {
+                cwd: '',
+                src: ['src/*.html'],
+                dest: 'src/partials.js'
+            }
+        },
+
+        concat: {
+            main: {
+                options: {
+                    sourceMap: true
+                },
+                src: ['src/*.js'],
+                dest: 'dist/sw-duration-selector.js'
+            }
+        },
+
         connect: {
             server: {
                 options: {
@@ -34,4 +53,5 @@ module.exports = function (grunt) {
         }
     });
     grunt.registerTask('default', ['sass', 'connect', 'watch']);
+    grunt.registerTask('release', ['sass', 'ngtemplates', 'concat']);
 };

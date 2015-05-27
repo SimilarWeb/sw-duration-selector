@@ -4,8 +4,8 @@
 angular.module('sw.components', [])
 	.constant('swDurationConfig', {
 		cssClass: 'durationSelector',
-		presetFormat: 'MMM, YYYY',
-		customFormat: 'MMM DD'
+		displayFormat: 'MMM, YYYY',
+		customFormat: 'YYYY.MM'
 	})
 	.filter('monthShort', function() {
 		return function(value) {
@@ -100,39 +100,44 @@ angular.module('sw.components', [])
 			templateUrl: 'src/sw-duration-selector.html',
 			replace: true,
 			controller: function ($scope) {
-				var model = $scope.duration.split('-');
+				var duration = $scope.duration.split('-');
 				this.minDate = moment($scope.minDate);
 				this.maxDate = moment($scope.maxDate);
-				this.model = model.length > 1
-					? {startDate: moment(model[0]), endDate: moment(model[1])}
+				this.model = duration.length > 1
+					? {startDate: moment(duration[0]), endDate: moment(duration[1])}
 					: {startDate: this.maxDate, endDate: this.maxDate};
 				this.updateModel = function (value) {
 					$scope.model = value;
-				}
+				};
 			},
 			compile: function compile ($templateElement, $templateAttributes) {
 				return function link ($scope, $linkElement, $linkAttributes) {
-					$scope.model = $scope.presets.find(function(element) {
-						return element.value == $scope.duration;}
-					);
-
+					var duration = $scope.duration.split('-');
 					$scope.options = swDurationConfig;
-					$scope.updateModel = function (preset) {
-						if (preset.value === 'custom') {
-							$scope.showCustom = true;
-							preset.value = 'apply';
-						}
-						else if (preset.value === 'apply') {
-							$scope.showCustom = false;
-							preset.value = 'custom';
-						}
-						else {
-							// change model to one of the presets
-							$scope.duration = preset;
-							// and hide presets popup
+					if (duration.length > 1) {
+						$scope.model.displayText = moment(duration[0]).format($scope.options.displayFormat) + ' - ' + moment(duration[1]).format($scope.options.displayFormat) + ' (Custom)';
+					}
+					else {
+						$scope.model = $scope.presets.find(function(element) {
+							return element.value == $scope.duration;}
+						);
+					}
+
+					$scope.setCustom = function () {
+						var model = $scope.model;
+						if ($scope.showCustom) {
+							$scope.model.displayText = model.startDate.format($scope.options.displayFormat) + ' - ' + model.endDate.format($scope.options.displayFormat) + ' (Custom)';
+							$scope.duration = model.startDate.format($scope.options.customFormat) + '-' + model.endDate.format($scope.options.customFormat);
 							$scope.showPresets = false;
-							$scope.showCustom = false;
 						}
+						else $scope.showCustom = true;
+					};
+
+					$scope.setPreset = function (preset) {
+						$scope.model = preset;
+						$scope.duration = preset.value;
+						$scope.showPresets = false;
+						$scope.showCustom = false;
 					};
 
 					// for closing when clicking outside of the element

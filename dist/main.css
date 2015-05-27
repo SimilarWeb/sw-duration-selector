@@ -2,11 +2,28 @@
 .durationSelector {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  font-size: 14px; }
+  font-size: 14px;
+  position: relative;
+  width: 300px; }
+
+.durationSelector-input {
+  width: 225px;
+  box-sizing: content-box;
+  cursor: pointer;
+  color: #555;
+  border-radius: 18px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  padding: 0 30px 0 35px;
+  background-color: #fff;
+  border: 1px solid #CCC;
+  vertical-align: middle;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
 .durationSelector-popup {
   position: absolute;
-  top: 0;
+  top: auto;
   right: 10px;
   background: #ffffff;
   color: #2B3D52;
@@ -14,7 +31,8 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
   border-radius: 3px;
   box-sizing: border-box;
-  width: 160px; }
+  width: 160px;
+  margin-top: 10px; }
   .durationSelector-popup.custom {
     width: 660px; }
     .durationSelector-popup.custom .durationSelector-presets {

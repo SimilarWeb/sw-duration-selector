@@ -7,7 +7,9 @@
     "grunt-contrib-connect": "^0.10.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-sass": "^1.0.0",
-    "load-grunt-tasks": "^3.1.0"
+    "load-grunt-tasks": "^3.1.0",
+    "grunt-angular-templates": "~0.5.7",
+    "grunt-contrib-concat": "~0.5.1"
   },
   "scripts": {
     "postinstall": "bower install"

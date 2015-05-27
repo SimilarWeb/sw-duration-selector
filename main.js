@@ -71,25 +71,25 @@ angular.module('main', ['ui.router', 'sw.components'])
 			},
 			{
 				buttonText: "3 months",
-				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
+				displayText: "Feb, 2015 - Apr, 2015 (3 months)",
 				enabled: true,
 				value: "3m"
 			},
 			{
 				buttonText: "6 months",
-				displayText: "Apr, 2015 - Apr, 2015 (1 month)",
+				displayText: "Dec, 2014 - Apr, 2015 (6 months)",
 				enabled: true,
 				value: "6m"
 			},
 			{
 				buttonText: "12 months",
-				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
+				displayText: "Apr, 2014 - Apr, 2015 (12 months)",
 				enabled: true,
 				value: "12m"
 			},
 			{
 				buttonText: "24 months",
-				displayText: "Feb, 2015 - Apr, 2015 (3 month)",
+				displayText: "Apr, 2013 - Apr, 2015 (24 months)",
 				enabled: false,
 				value: "24m"
 			}

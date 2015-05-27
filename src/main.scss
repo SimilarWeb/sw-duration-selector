@@ -80,6 +80,9 @@
   text-align: center;
   width: 72px;
   cursor: pointer;
+  &.is-range:not(.is-selected) {
+    background: #ECEEF8;
+  }
   &.is-disabled, &.is-selected {
     cursor: default;
     pointer-events: none;
@@ -111,8 +114,4 @@
 }
 .is-disabled {
   opacity: 0.5;
-}
-
-.is-range {
-  background: #ECEEF8;
 }

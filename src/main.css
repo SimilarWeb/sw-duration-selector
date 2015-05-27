@@ -67,6 +67,8 @@
   text-align: center;
   width: 72px;
   cursor: pointer; }
+  .monthPicker-month.is-range:not(.is-selected) {
+    background: #ECEEF8; }
   .monthPicker-month.is-disabled, .monthPicker-month.is-selected {
     cursor: default;
     pointer-events: none; }
@@ -95,8 +97,5 @@
 
 .is-disabled {
   opacity: 0.5; }
-
-.is-range {
-  background: #ECEEF8; }
 
 /*# sourceMappingURL=main.css.map */

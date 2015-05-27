@@ -58,7 +58,7 @@ angular.module('sw.components', [])
 							month: month
 						};
 						model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
-						ctrl.updateModel(type, model[type + 'Date']);
+						ctrl.updateModel(model);
 					};
 
 					$scope.allowedMonth = function (month) {
@@ -95,24 +95,26 @@ angular.module('sw.components', [])
 				minDate: '@',
 				maxDate: '@',
 				presets: '=',
-				ngModel: '=' //{duration: '3m', startDate: '', endDate: ''}//
+				duration: '='
 			},
 			templateUrl: 'src/sw-duration-selector.html',
 			replace: true,
 			controller: function ($scope) {
-				var model = $scope.ngModel.value.split('-');
+				var model = $scope.duration.split('-');
 				this.minDate = moment($scope.minDate);
 				this.maxDate = moment($scope.maxDate);
 				this.model = model.length > 1
 					? {startDate: moment(model[0]), endDate: moment(model[1])}
 					: {startDate: this.maxDate, endDate: this.maxDate};
-				this.updateModel = function (type, value) {
-					$scope.customModel[type+'Date'] = value;
+				this.updateModel = function (value) {
+					$scope.model = value;
 				}
 			},
 			compile: function compile ($templateElement, $templateAttributes) {
 				return function link ($scope, $linkElement, $linkAttributes) {
-					$scope.ngModel = $scope.presets.find(function(element) {return element.value == $scope.ngModel.value;});
+					$scope.model = $scope.presets.find(function(element) {
+						return element.value == $scope.duration;}
+					);
 
 					$scope.options = swDurationConfig;
 					$scope.updateModel = function (preset) {
@@ -126,7 +128,7 @@ angular.module('sw.components', [])
 						}
 						else {
 							// change model to one of the presets
-							$scope.ngModel = preset;
+							$scope.duration = preset;
 							// and hide presets popup
 							$scope.showPresets = false;
 							$scope.showCustom = false;

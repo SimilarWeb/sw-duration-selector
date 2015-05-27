@@ -31,7 +31,7 @@ angular.module('main', ['ui.router', 'sw.components'])
 				abstract: true,
 				url: '',
 				template: '<div style="float:right;">' +
-					'<sw-duration-selector ng-model="duration" presets="presets" min-date="{{minDate}}" max-date="{{maxDate}}"></sw-duration-selector>'+
+					'<sw-duration-selector duration="duration" presets="presets" min-date="{{minDate}}" max-date="{{maxDate}}"></sw-duration-selector>'+
 					'<a ui-sref="state.1({duration: \'1m\'})">1m</a>'+
 					'<a ui-sref="state.1({duration: \'3m\'})">3m</a>'+
 					'<div ui-view></div>'+
@@ -53,7 +53,7 @@ angular.module('main', ['ui.router', 'sw.components'])
 		});
 	})
 	.controller('mainCtrl', function ($scope, $state) {
-		$scope.duration = {value: $state.params.duration};//'2015.01-2015.04'
+		$scope.duration = $state.params.duration;//'2015.01-2015.04'
 		$scope.minDate = '2011-01-01T00:00:00';
 		$scope.maxDate = '2015-04-30T00:00:00';
 		$scope.presets = [

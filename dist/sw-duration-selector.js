@@ -112,8 +112,8 @@ angular.module('sw.durationSelector', [])
 		return {
 			restrict: 'AE',
 			scope: {
-				minDate: '@',
-				maxDate: '@',
+				minDate: '=',
+				maxDate: '=',
 				presets: '=',
 				duration: '='
 			},
@@ -121,8 +121,8 @@ angular.module('sw.durationSelector', [])
 			replace: true,
 			controller: function ($scope) {
 				var duration = $scope.duration.split('-');
-				this.minDate = moment($scope.minDate);
-				this.maxDate = moment($scope.maxDate);
+				this.minDate = moment.isMoment($scope.minDate) ? $scope.minDate : moment($scope.minDate);
+				this.maxDate = moment.isMoment($scope.maxDate) ? $scope.maxDate : moment($scope.maxDate);
 				this.model = duration.length > 1
 					? {startDate: moment(duration[0]), endDate: moment(duration[1])}
 					: {startDate: this.maxDate, endDate: this.maxDate};

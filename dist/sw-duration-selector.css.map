@@ -1,6 +1,6 @@
 {
 	"version": 3,
-	"file": "main.css",
+	"file": "sw-duration-selector.css",
 	"sources": [
 		"../src/main.scss"
 	],

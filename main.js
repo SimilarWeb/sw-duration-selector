@@ -24,7 +24,7 @@ if (!Array.prototype.find) {
 	};
 }
 
-angular.module('main', ['ui.router', 'sw.components'])
+angular.module('main', ['ui.router', 'sw.durationSelector'])
 	.config(function($stateProvider) {
 		$stateProvider
 			.state('state', {

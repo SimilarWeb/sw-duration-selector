@@ -1,7 +1,7 @@
 /**
  * Created by vlads on 18/5/2015.
  */
-angular.module('sw.components', [])
+angular.module('sw.durationSelector', [])
 	.constant('swDurationConfig', {
 		cssClass: 'durationSelector',
 		displayFormat: 'MMM, YYYY',
@@ -97,7 +97,7 @@ angular.module('sw.components', [])
 				presets: '=',
 				duration: '='
 			},
-			templateUrl: 'src/sw-duration-selector.html',
+			templateUrl: 'src/duration-selector.html',
 			replace: true,
 			controller: function ($scope) {
 				var duration = $scope.duration.split('-');

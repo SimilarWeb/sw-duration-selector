@@ -8,13 +8,13 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'dist/main.css': 'src/main.scss'
+                    'dist/sw-duration-selector.css': 'src/main.scss'
                 }
             }
         },
 
         ngtemplates: {
-            'sw.components': {
+            'sw.durationSelector': {
                 cwd: '',
                 src: ['src/*.html'],
                 dest: 'src/partials.js'

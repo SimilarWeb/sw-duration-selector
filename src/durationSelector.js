@@ -1,6 +1,3 @@
-/**
- * Created by vlads on 18/5/2015.
- */
 angular.module('sw.durationSelector', [])
 	.constant('swDurationConfig', {
 		cssClass: 'durationSelector',

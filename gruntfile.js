@@ -24,6 +24,7 @@ module.exports = function (grunt) {
         concat: {
             main: {
                 options: {
+                    banner: '\'use strict\';\n',
                     sourceMap: true
                 },
                 src: ['src/*.js'],

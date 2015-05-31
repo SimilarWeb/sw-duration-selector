@@ -9,7 +9,8 @@ angular.module('main', ['ui.router', 'sw.durationSelector'])
 				abstract: true,
 				url: '',
 				template: '<div style="float:right;">' +
-					'<sw-duration-selector duration="duration" presets="presets" min-date="minDate" max-date="maxDate"></sw-duration-selector>'+
+					'<sw-duration-selector ng-model="duration" duration="duration" presets="presets" min-date="minDate" max-date="maxDate"></sw-duration-selector>'+
+					//'<input sw-duration-selector duration="duration" ng-model="duration" presets="presets" min-date="minDate" max-date="maxDate">'+
 					'<a ui-sref="state.1({duration: \'1m\'})">1m</a>'+
 					'<a ui-sref="state.1({duration: \'3m\'})">3m</a>'+
 					'<div ui-view></div>'+

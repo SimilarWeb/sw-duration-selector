@@ -1,7 +1,7 @@
 <div class="durationSelector {{options.cssClass}}">
-    <i class="sw-icon-calendar"></i>
-    <i class="sw-icon-selection-arrow-down"></i>
-    <input class="durationSelector-input" type="text" ng-model="model.displayText" ng-click="showPresets = !showPresets" readonly>
+    <!--<i class="sw-icon-calendar"></i>-->
+    <!--<i class="sw-icon-selection-arrow-down"></i>-->
+    <input class="durationSelector-input" type="text" ng-click="showPresets = !showPresets" readonly>
     <div class="durationSelector-popup" ng-class="{custom:showCustom}" ng-show="showPresets">
         <div class="durationSelector-customPicker" ng-show="showPresets && showCustom">
             <month-picker class="left" type="start"></month-picker>

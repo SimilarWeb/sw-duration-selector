@@ -163,11 +163,31 @@ angular.module('sw.durationSelector', [])
 	.controller('durationSelectorCtrl', function ($scope, durationSelectorConfig, $document) {
 		var duration = $scope.duration.split('-'),
 			self = this;
-		this.init = function (_ngModelCtrl) {
+		this.init = function (_ngModelCtrl, _element) {
 			self.ngModelCtrl = _ngModelCtrl;
-			//self.ngModelCtrl.$render = function() {
-			//	self.render();
-			//};
+			self.ngModelCtrl.$render = function() {
+				var ngModelCtrl = this;
+				var duration = ngModelCtrl.$modelValue.split('-');
+				if (duration.length > 1) {
+					ngModelCtrl.$viewValue = moment(duration[0]).format(durationSelectorConfig.displayFormat) + ' - ' + moment(duration[1]).format(durationSelectorConfig.displayFormat) + ' (Custom)';
+				}
+				else {
+					ngModelCtrl.$viewValue = $scope.presets.find(function(element) {
+						return element.value == ngModelCtrl.$modelValue;}
+					).displayText;
+				}
+				_element.children()[0].value = ngModelCtrl.$viewValue;
+			};
+		};
+
+		this.setModel = function () {
+			var model = $scope.model;
+			if ($scope.showCustom) {
+				//$scope.model.displayText = model.startDate.format($scope.options.displayFormat) + ' - ' + model.endDate.format($scope.options.displayFormat) + ' (Custom)';
+				$scope.duration = model.startDate.format($scope.options.customFormat) + '-' + model.endDate.format($scope.options.customFormat);
+				$scope.showPresets = false;
+			}
+			else $scope.showCustom = true;
 		};
 
 		this.minDate = moment.isMoment($scope.minDate) ? $scope.minDate : moment($scope.minDate);
@@ -193,42 +213,13 @@ angular.module('sw.durationSelector', [])
 			require: ['swDurationSelector', '^ngModel'],
 			controller: 'durationSelectorCtrl',
 			link: function ($scope, element, attrs, ctrls) {
-				var durationSelectorCtrl = ctrls[0], ngModelCtrl = ctrls[1];
-				if (ngModelCtrl) {
-					ngModelCtrl.$render = function () {
-						var duration = ngModelCtrl.$modelValue.split('-');
-						if (duration.length > 1) {
-							ngModelCtrl.$viewValue = moment(duration[0]).format($scope.options.displayFormat) + ' - ' + moment(duration[1]).format($scope.options.displayFormat) + ' (Custom)';
-						}
-						else {
-							ngModelCtrl.$viewValue = $scope.presets.find(function(element) {
-								return element.value == ngModelCtrl.$modelValue;}
-							).displayText;
-						}
-						element.children()[0].value = ngModelCtrl.$viewValue;
-					};
-					durationSelectorCtrl.init(ngModelCtrl);
-				}
-				//var duration = $scope.duration.split('-');
-				//$scope.options = durationSelectorConfig;
-				//if (duration.length > 1) {
-				//	$scope.model.displayText = moment(duration[0]).format($scope.options.displayFormat) + ' - ' + moment(duration[1]).format($scope.options.displayFormat) + ' (Custom)';
-				//}
-				//else {
-				//	$scope.model = $scope.presets.find(function(element) {
-				//		return element.value == $scope.duration;}
-				//	);
-				//}
+				var durationSelectorCtrl = ctrls[0],
+					ngModelCtrl = ctrls[1];
 
-				$scope.setCustom = function () {
-					var model = $scope.model;
-					if ($scope.showCustom) {
-						//$scope.model.displayText = model.startDate.format($scope.options.displayFormat) + ' - ' + model.endDate.format($scope.options.displayFormat) + ' (Custom)';
-						$scope.duration = model.startDate.format($scope.options.customFormat) + '-' + model.endDate.format($scope.options.customFormat);
-						$scope.showPresets = false;
-					}
-					else $scope.showCustom = true;
-				};
+				//ngModelCtrl.$render = function () {
+				//
+				//};
+				durationSelectorCtrl.init(ngModelCtrl, element);
 
 				$scope.setPreset = function (preset) {
 					$scope.model = preset;

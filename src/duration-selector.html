@@ -8,7 +8,7 @@
             <month-picker class="right" type="end"></month-picker>
         </div>
         <ul class="durationSelector-presets">
-            <li class="durationSelector-preset" ng-repeat="preset in presets" ng-click="setPreset(preset)" ng-class="{'is-selected': preset.value == model.value && !showCustom, 'is-disabled': !preset.enabled}">
+            <li class="durationSelector-preset" ng-repeat="preset in presets" ng-click="setPreset(preset)" ng-class="{'is-selected': preset.value == duration && !showCustom, 'is-disabled': !preset.enabled}">
                 {{preset.buttonText}}
             </li>
             <li class="durationSelector-preset" ng-click="setCustom()" ng-class="{'is-selected': showCustom}">

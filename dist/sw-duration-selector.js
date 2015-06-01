@@ -53,75 +53,60 @@ angular.module('sw.durationSelector', [])
 			return moment().year(value.year).month(value.month).format('MMMM YYYY');
 		};
 	})
-	.controller('monthPickerCtrl', function ($scope, durationSelectorService) {
-		var type = $scope.type,
-			self = this;
-
-		this.init = function (mainCtrl){
-			self.mainCtrl = mainCtrl;
-			self.model = mainCtrl.model;
-			self.minDate = mainCtrl.minDate;
-			self.maxDate = mainCtrl.maxDate;
-
-		};
-
-		// populate month-picker years and months
-		$scope.years = durationSelectorService.yearsRange(self.minDate.year(), self.maxDate.year());
-		$scope.months = durationSelectorService.monthsRange();
-
-		$scope.selectedDate = {
-			year: self.model[type + 'Date'].year(),
-			month: self.model[type + 'Date'].month()
-		};
-		$scope.selectedYear = $scope.selectedDate.year;
-
-		$scope.selectDate = function (month) {
-			$scope.selectedDate = {
-				year: $scope.selectedYear,
-				month: month
-			};
-			self.model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
-			self.mainCtrl.updateModel(self.model);
-		};
-
-		$scope.allowedYear = function (year) {
-			var date = moment().year(year),
-				result;
-			switch (type) {
-				case 'start':
-					result = date.isBetween(self.minDate.clone().startOf('year'), self.model.endDate.clone().endOf('year'));
-					break;
-				case 'end':
-					result = date.isBetween(self.model.startDate.clone().startOf('year'), self.maxDate.clone().endOf('year'));
-					break;
-			}
-			return result;
-		};
-
-		$scope.allowedMonth = function (month) {
-			var date = moment().year($scope.selectedYear).month(month);
-			return type === 'start' ? durationSelectorService.monthInRange(date, self.minDate, self.model.endDate) : durationSelectorService.monthInRange(date, self.model.startDate, self.maxDate);
-		};
-
-		$scope.inRangeMonth = function (month) {
-			var date = moment().year($scope.selectedYear).month(month);
-			return durationSelectorService.monthInRange(date, self.model.startDate, self.model.endDate);
-		};
-	})
-	//.directive('monthPicker', function () {
-	//	return {
-	//		restrict: 'AE',
-	//		require: ['monthPicker', '^swDurationSelector'],
-	//		scope: {
-	//			type: '@' //start or end
-	//		},
-	//		templateUrl: 'src/month-picker.html',
-	//		replace: true,
-	//		controller: 'monthPickerCtrl',
-	//		link: function ($scope, $linkElement, $linkAttributes, ctrls) {
-	//			ctrls[0].init(ctrls[1]);
+	//.controller('monthPickerCtrl', function ($scope, durationSelectorService) {
+	//	var type = $scope.type,
+	//		self = this;
+	//
+	//	this.init = function (mainCtrl){
+	//		self.mainCtrl = mainCtrl;
+	//		self.model = mainCtrl.model;
+	//		self.minDate = mainCtrl.minDate;
+	//		self.maxDate = mainCtrl.maxDate;
+	//
+	//	};
+	//
+	//	// populate month-picker years and months
+	//	$scope.years = durationSelectorService.yearsRange(self.minDate.year(), self.maxDate.year());
+	//	$scope.months = durationSelectorService.monthsRange();
+	//
+	//	$scope.selectedDate = {
+	//		year: self.model[type + 'Date'].year(),
+	//		month: self.model[type + 'Date'].month()
+	//	};
+	//	$scope.selectedYear = $scope.selectedDate.year;
+	//
+	//	$scope.selectDate = function (month) {
+	//		$scope.selectedDate = {
+	//			year: $scope.selectedYear,
+	//			month: month
+	//		};
+	//		self.model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
+	//		self.mainCtrl.updateModel(self.model);
+	//	};
+	//
+	//	$scope.allowedYear = function (year) {
+	//		var date = moment().year(year),
+	//			result;
+	//		switch (type) {
+	//			case 'start':
+	//				result = date.isBetween(self.minDate.clone().startOf('year'), self.model.endDate.clone().endOf('year'));
+	//				break;
+	//			case 'end':
+	//				result = date.isBetween(self.model.startDate.clone().startOf('year'), self.maxDate.clone().endOf('year'));
+	//				break;
 	//		}
-	//	}
+	//		return result;
+	//	};
+	//
+	//	$scope.allowedMonth = function (month) {
+	//		var date = moment().year($scope.selectedYear).month(month);
+	//		return type === 'start' ? durationSelectorService.monthInRange(date, self.minDate, self.model.endDate) : durationSelectorService.monthInRange(date, self.model.startDate, self.maxDate);
+	//	};
+	//
+	//	$scope.inRangeMonth = function (month) {
+	//		var date = moment().year($scope.selectedYear).month(month);
+	//		return durationSelectorService.monthInRange(date, self.model.startDate, self.model.endDate);
+	//	};
 	//})
 	.directive('monthPicker', function (durationSelectorService) {
 		return {
@@ -180,47 +165,73 @@ angular.module('sw.durationSelector', [])
 					var date = moment().year($scope.selectedYear).month(month);
 					return durationSelectorService.monthInRange(date, model.startDate, model.endDate);
 				};
+
+				$scope.$watch(function(){return ctrl.model;}, function (val) {
+					$scope.selectedDate = {
+						year: val[type + 'Date'].year(),
+						month: val[type + 'Date'].month()
+					};
+					$scope.selectedYear = $scope.selectedDate.year;
+					model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
+				});
 			}
 		}
 	})
-	.controller('durationSelectorCtrl', function ($scope, durationSelectorConfig, $document) {
-		var duration = $scope.duration.split('-'),
-			self = this;
-		this.init = function (_ngModelCtrl, _element) {
-			self.ngModelCtrl = _ngModelCtrl;
-			self.ngModelCtrl.$render = function() {
-				var ngModelCtrl = this;
-				var duration = ngModelCtrl.$modelValue.split('-');
-				if (duration.length > 1) {
-					ngModelCtrl.$viewValue = moment(duration[0]).format(durationSelectorConfig.displayFormat) + ' - ' + moment(duration[1]).format(durationSelectorConfig.displayFormat) + ' (Custom)';
-				}
-				else {
-					ngModelCtrl.$viewValue = $scope.presets.find(function(element) {
-						return element.value == ngModelCtrl.$modelValue;}
-					).displayText;
-				}
-				_element.children()[0].value = ngModelCtrl.$viewValue;
-			};
+	.controller('durationSelectorCtrl', function ($scope, $timeout, durationSelectorConfig) {
+		var self = this,
+			ngModelCtrl;
+
+		this.init = function (_ngModelCtrl) {
+			ngModelCtrl = _ngModelCtrl;
+			ngModelCtrl.$viewChangeListeners.push(function(){
+				ngModelCtrl.$render();
+				ngModelCtrl.$$rawModelValue = $scope.duration;
+			});
+			$timeout(function() {
+				$scope.duration = ngModelCtrl.$viewValue;
+			});
+
+		};
+		this.minDate = moment.isMoment($scope.minDate) ? $scope.minDate : moment($scope.minDate);
+		this.maxDate = moment.isMoment($scope.maxDate) ? $scope.maxDate : moment($scope.maxDate);
+		this.model = {startDate: self.maxDate, endDate: self.maxDate};
+		this.updateModel = function (value) {
+			self.model = value;
 		};
 
-		this.setModel = function () {
-			var model = $scope.model;
+		$scope.setPreset = function (preset) {
+			$scope.duration = preset.value;
+			$scope.showPresets = false;
+			$scope.showCustom = false;
+		};
+
+		$scope.setCustom = function () {
 			if ($scope.showCustom) {
-				//$scope.model.displayText = model.startDate.format($scope.options.displayFormat) + ' - ' + model.endDate.format($scope.options.displayFormat) + ' (Custom)';
-				$scope.duration = model.startDate.format($scope.options.customFormat) + '-' + model.endDate.format($scope.options.customFormat);
+				$scope.duration = self.model.startDate.format(durationSelectorConfig.customFormat) + '-' + self.model.endDate.format(durationSelectorConfig.customFormat);
 				$scope.showPresets = false;
 			}
 			else $scope.showCustom = true;
 		};
 
-		this.minDate = moment.isMoment($scope.minDate) ? $scope.minDate : moment($scope.minDate);
-		this.maxDate = moment.isMoment($scope.maxDate) ? $scope.maxDate : moment($scope.maxDate);
-		this.model = duration.length > 1
-			? {startDate: moment(duration[0]), endDate: moment(duration[1])}
-			: {startDate: this.maxDate, endDate: this.maxDate};
-		this.updateModel = function (value) {
-			$scope.model = value;
-		};
+		$scope.$watch('duration', function (val) {
+			if (val) {
+				var duration = val.split('-');
+				if (duration.length > 1) {
+					var startMoment = moment(new Date(duration[0])),
+						endMoment = moment(new Date(duration[1]));
+					self.model = {startDate: startMoment, endDate: endMoment};
+					ngModelCtrl.$setViewValue(startMoment.format(durationSelectorConfig.displayFormat) + ' - ' + endMoment.format(durationSelectorConfig.displayFormat) + ' (Custom)');
+					$scope.showCustom = true;
+				}
+				else {
+					self.model = {startDate: self.maxDate, endDate: self.maxDate};
+					ngModelCtrl.$setViewValue($scope.presets.find(function(element) {
+						return element.value == duration[0];}
+					).displayText);
+				}
+			}
+		});
+
 	})
 	.directive('swDurationSelector', function ($compile, $document) {
 		return {
@@ -228,8 +239,7 @@ angular.module('sw.durationSelector', [])
 			scope: {
 				minDate: '=',
 				maxDate: '=',
-				presets: '=',
-				duration: '='
+				presets: '='
 			},
 			replace: true,
 			templateUrl: 'src/duration-selector.html',
@@ -239,17 +249,10 @@ angular.module('sw.durationSelector', [])
 				var durationSelectorCtrl = ctrls[0],
 					ngModelCtrl = ctrls[1];
 
-				//ngModelCtrl.$render = function () {
-				//
-				//};
-				durationSelectorCtrl.init(ngModelCtrl, element);
-
-				$scope.setPreset = function (preset) {
-					$scope.model = preset;
-					$scope.duration = preset.value;
-					$scope.showPresets = false;
-					$scope.showCustom = false;
+				ngModelCtrl.$render = function() {
+					element.children()[0].value = ngModelCtrl.$viewValue;
 				};
+				durationSelectorCtrl.init(ngModelCtrl);
 
 				// for closing when clicking outside of the element
 				$document.on('click', function (e) {
@@ -276,7 +279,7 @@ angular.module('sw.durationSelector').run(['$templateCache', function($templateC
     "            <month-picker class=\"right\" type=\"end\"></month-picker>\n" +
     "        </div>\n" +
     "        <ul class=\"durationSelector-presets\">\n" +
-    "            <li class=\"durationSelector-preset\" ng-repeat=\"preset in presets\" ng-click=\"setPreset(preset)\" ng-class=\"{'is-selected': preset.value == model.value && !showCustom, 'is-disabled': !preset.enabled}\">\n" +
+    "            <li class=\"durationSelector-preset\" ng-repeat=\"preset in presets\" ng-click=\"setPreset(preset)\" ng-class=\"{'is-selected': preset.value == duration && !showCustom, 'is-disabled': !preset.enabled}\">\n" +
     "                {{preset.buttonText}}\n" +
     "            </li>\n" +
     "            <li class=\"durationSelector-preset\" ng-click=\"setCustom()\" ng-class=\"{'is-selected': showCustom}\">\n" +

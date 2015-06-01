@@ -32,6 +32,9 @@ angular.module('main', ['ui.router', 'sw.durationSelector'])
 	})
 	.controller('mainCtrl', function ($scope, $state) {
 		$scope.duration = $state.params.duration;//'2015.01-2015.04'
+		$scope.$watch('duration', function (val) {
+			console.log(val);
+		});
 		$scope.minDate = '2011-01-01T00:00:00';
 		$scope.maxDate = '2015-04-30T00:00:00';
 		$scope.presets = [

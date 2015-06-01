@@ -47,12 +47,20 @@ module.exports = function (grunt) {
                 spawn: true,
                 interrupt: true
             },
+            html: {
+                files: ['src/*.html'],
+                tasks: ['ngtemplates']
+            },
+            scripts: {
+                files: ['src/*.js'],
+                tasks: ['concat']
+            },
             styles: {
                 files: ['src/*.scss'],
                 tasks: ['sass']
             }
         }
     });
-    grunt.registerTask('default', ['sass', 'connect', 'watch']);
+    grunt.registerTask('default', ['release', 'connect', 'watch']);
     grunt.registerTask('release', ['sass', 'ngtemplates', 'concat']);
 };

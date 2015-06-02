@@ -11,7 +11,7 @@ angular.module('main', ['ui.router', 'sw.durationSelector'])
 				template: '<div style="float:right;">' +
 					'<sw-duration-selector duration="duration" presets="presets" min-date="minDate" max-date="maxDate"></sw-duration-selector>'+
 					'<a ui-sref="state.1({duration: \'1m\'})">1m</a>'+
-					'<a ui-sref="state.1({duration: \'3m\'})">3m</a>'+
+					'<a ui-sref="state.2({duration: \'3m\'})">3m</a>'+
 					'<div ui-view></div>'+
 				'</div>',
 				controller: 'mainCtrl'
@@ -25,18 +25,18 @@ angular.module('main', ['ui.router', 'sw.durationSelector'])
 				template: '<h1>State 3m</h1>'
 			});
 	})
-	.run(function($rootScope) {
+	.controller('mainCtrl', function ($scope, $state, $rootScope) {
 		$rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
-
+			if (toState.name == 'state.1') {
+				$scope.minDate = moment('2014-09-01T00:00:00');
+			}
+			else {
+				$scope.minDate = moment('2015-01-01T00:00:00');
+			}
 		});
-	})
-	.controller('mainCtrl', function ($scope, $state) {
 		$scope.duration = $state.params.duration;//'2015.01-2015.04'
-		$scope.$watch('duration', function (val) {
-			console.log(val);
-		});
-		$scope.minDate = '2011-01-01T00:00:00';
-		$scope.maxDate = '2015-04-30T00:00:00';
+		$scope.minDate = moment('2014-09-01T00:00:00');
+		$scope.maxDate = moment('2015-04-30T00:00:00');
 		$scope.presets = [
 			{
 				buttonText: "Last 28 days",

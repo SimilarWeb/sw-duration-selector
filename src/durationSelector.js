@@ -30,23 +30,23 @@ angular.module('sw.durationSelector', [])
 			return moment().year(value.year).month(value.month).format('MMMM YYYY');
 		};
 	})
-	.directive('monthPicker', function (durationSelectorService) {
+	.directive('monthPicker', function (durationSelectorService, $timeout) {
 		return {
 			restrict: 'AE',
 			require: '^swDurationSelector',
 			scope: {
-				type: '@' //start or end
+				type: '@', //start or end
+				minDate: '=',
+				maxDate: '='
 			},
 			templateUrl: 'src/month-picker.html',
 			replace: true,
 			link: function ($scope, $linkElement, $linkAttributes, ctrl) {
 				var type = $scope.type,
-					model = ctrl.model,
-					minDate = ctrl.minDate,
-					maxDate = ctrl.maxDate;
+					model = ctrl.model;
 
 				// populate month-picker years and months
-				$scope.years = durationSelectorService.yearsRange(minDate.year(), maxDate.year());
+				$scope.years = durationSelectorService.yearsRange($scope.minDate.year(), $scope.maxDate.year());
 				$scope.months = durationSelectorService.monthsRange();
 
 				$scope.selectedDate = {
@@ -69,10 +69,10 @@ angular.module('sw.durationSelector', [])
 						result;
 					switch (type) {
 						case 'start':
-							result = date.isBetween(minDate.clone().startOf('year'), model.endDate.clone().endOf('year'));
+							result = date.isBetween($scope.minDate.clone().startOf('year'), model.endDate.clone().endOf('year'));
 							break;
 						case 'end':
-							result = date.isBetween(model.startDate.clone().startOf('year'), maxDate.clone().endOf('year'));
+							result = date.isBetween(model.startDate.clone().startOf('year'), $scope.maxDate.clone().endOf('year'));
 							break;
 					}
 					return result;
@@ -80,7 +80,7 @@ angular.module('sw.durationSelector', [])
 
 				$scope.allowedMonth = function (month) {
 					var date = moment().year($scope.selectedYear).month(month);
-					return type === 'start' ? durationSelectorService.monthInRange(date, minDate, model.endDate) : durationSelectorService.monthInRange(date, model.startDate, maxDate);
+					return type === 'start' ? durationSelectorService.monthInRange(date, $scope.minDate, model.endDate) : durationSelectorService.monthInRange(date, model.startDate, $scope.maxDate);
 				};
 
 				$scope.inRangeMonth = function (month) {
@@ -96,15 +96,17 @@ angular.module('sw.durationSelector', [])
 					$scope.selectedYear = $scope.selectedDate.year;
 					model[type + 'Date'] = moment().year($scope.selectedDate.year).month($scope.selectedDate.month);
 				});
+
+				$scope.$watch('minDate', function (val) {
+					$scope.selectedYear = $scope.selectedDate.year;
+				});
 			}
 		}
 	})
 	.controller('durationSelectorCtrl', function ($scope, $timeout, durationSelectorConfig) {
 		var self = this;
 
-		this.minDate = moment.isMoment($scope.minDate) ? $scope.minDate : moment($scope.minDate);
-		this.maxDate = moment.isMoment($scope.maxDate) ? $scope.maxDate : moment($scope.maxDate);
-		this.model = {startDate: self.maxDate, endDate: self.maxDate};
+		this.model = {startDate: $scope.maxDate, endDate: $scope.maxDate};
 		this.updateModel = function (value) {
 			self.model = value;
 		};
@@ -134,10 +136,11 @@ angular.module('sw.durationSelector', [])
 					$scope.showCustom = true;
 				}
 				else {
-					self.model = {startDate: self.maxDate, endDate: self.maxDate};
+					self.model = {startDate: $scope.maxDate, endDate: $scope.maxDate};
 					$scope.model = $scope.presets.find(function(element) {
 						return element.value == duration[0];}
 					);
+					$scope.showCustom = false;
 				}
 			}
 		});

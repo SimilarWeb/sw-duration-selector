@@ -198,8 +198,6 @@ angular.module('sw.durationSelector').run(['$templateCache', function($templateC
 
   $templateCache.put('src/duration-selector.html',
     "<div class=\"durationSelector {{options.cssClass}}\">\n" +
-    "    <i class=\"sw-icon-calendar\"></i>\n" +
-    "    <i class=\"sw-icon-selection-arrow-down\"></i>\n" +
     "    <input class=\"durationSelector-input\" type=\"text\" ng-model=\"model.displayText\" ng-click=\"showPresets = !showPresets\" readonly>\n" +
     "    <div class=\"durationSelector-popup\" ng-class=\"{custom:showCustom}\" ng-show=\"showPresets\">\n" +
     "        <div class=\"durationSelector-customPicker\" ng-show=\"showPresets && showCustom\">\n" +

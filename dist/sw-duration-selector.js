@@ -198,7 +198,7 @@ angular.module('sw.durationSelector').run(['$templateCache', function($templateC
 
   $templateCache.put('src/duration-selector.html',
     "<div class=\"durationSelector {{options.cssClass}}\">\n" +
-    "    <input class=\"durationSelector-input\" type=\"text\" ng-model=\"model.displayText\" ng-click=\"showPresets = !showPresets\" readonly>\n" +
+    "    <span class=\"durationSelector-input\" ng-click=\"showPresets = !showPresets\">{{model.displayText}}</span>\n" +
     "    <div class=\"durationSelector-popup\" ng-class=\"{custom:showCustom}\" ng-show=\"showPresets\">\n" +
     "        <div class=\"durationSelector-customPicker\" ng-show=\"showPresets && showCustom\">\n" +
     "            <month-picker class=\"left\" type=\"start\" min-date=\"minDate\" max-date=\"maxDate\"></month-picker>\n" +

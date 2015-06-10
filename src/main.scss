@@ -5,18 +5,18 @@
   font-weight: 400;
   font-size: 14px;
   position: relative;
-  width: 300px;
 }
 .durationSelector-input {
-  width: 225px;
+  display: inline-block;
+  width: 270px;
   box-sizing: content-box;
   cursor: pointer;
   color: #555;
   border-radius: 18px;
   height: 30px;
-  line-height: 30px;
+  line-height: 26px;
   font-size: 14px;
-  padding: 6px;
+  padding: 0 6px;
   background-color: #fff;
   border: 1px solid #CCC;
   vertical-align: middle;
@@ -30,8 +30,8 @@
   &:after {
     font-family: 'swicons';
     content: "\f163";
-    font-size: 9px;
-    margin: 0 6px;
+    font-size: 8px;
+    margin: 0 9px;
   }
 }
 .durationSelector-popup {

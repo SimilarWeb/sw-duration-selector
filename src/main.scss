@@ -55,6 +55,7 @@
   box-sizing: border-box;
   width: 160px;
   margin-top: 10px;
+  z-index: 1;
   &.custom {
     width: 660px;
     .durationSelector-presets {

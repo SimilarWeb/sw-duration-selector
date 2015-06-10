@@ -50,6 +50,20 @@
     width: 660px; }
     .durationSelector-popup.custom .durationSelector-presets {
       border-left: 1px solid #DDDDDD; }
+  .durationSelector-popup:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background: #fff;
+    border-right: 1px solid #ABB1B8;
+    border-bottom: 1px solid #ABB1B8;
+    -webkit-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+    right: 30px;
+    top: -6px; }
 
 .durationSelector-presets {
   display: inline-block;
@@ -63,6 +77,7 @@
   line-height: 38px;
   vertical-align: middle;
   padding: 0 15px;
+  margin: 3px 0 -3px 0;
   cursor: pointer; }
   .durationSelector-preset.is-disabled {
     cursor: default; }

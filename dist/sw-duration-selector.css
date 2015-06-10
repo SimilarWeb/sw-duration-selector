@@ -3,7 +3,8 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 14px;
-  position: relative; }
+  position: relative;
+  width: 285px; }
 
 .durationSelector-input {
   display: inline-block;
@@ -29,7 +30,9 @@
     font-family: 'swicons';
     content: "\f163";
     font-size: 8px;
-    margin: 0 9px; }
+    margin: 0 5px;
+    float: right;
+    line-height: 29px; }
 
 .durationSelector-popup {
   position: absolute;

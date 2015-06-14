@@ -176,7 +176,8 @@ angular.module('sw.durationSelector', [])
 				minDate: '=',
 				maxDate: '=',
 				presets: '=',
-				duration: '='
+				duration: '=',
+				ngDisabled: '='
 			},
 			templateUrl: 'src/duration-selector.html',
 			replace: true,
@@ -198,7 +199,7 @@ angular.module('sw.durationSelector').run(['$templateCache', function($templateC
 
   $templateCache.put('src/duration-selector.html',
     "<div class=\"durationSelector {{options.cssClass}}\">\n" +
-    "    <span class=\"durationSelector-text\" ng-class=\"{'is-active': showPresets}\" ng-click=\"showPresets = !showPresets\">{{model.displayText}}</span>\n" +
+    "    <span class=\"durationSelector-text\" ng-class=\"{'is-active': showPresets, 'is-disabled': ngDisabled}\" ng-click=\"showPresets = !showPresets\">{{model.displayText}}</span>\n" +
     "    <div class=\"durationSelector-popup\" ng-class=\"{custom:showCustom}\" ng-show=\"showPresets\">\n" +
     "        <div class=\"durationSelector-customPicker\" ng-show=\"showPresets && showCustom\">\n" +
     "            <month-picker class=\"left\" type=\"start\" min-date=\"minDate\" max-date=\"maxDate\"></month-picker>\n" +

@@ -22,6 +22,10 @@
   border: 1px solid #CCC;
   vertical-align: middle;
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  &.is-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
   &.is-active {
     border-color: #508ECF;
     &:after {
@@ -38,7 +42,7 @@
     font-family: 'swicons';
     content: "\f163";
     font-size: 8px;
-    margin: 0 5px;
+    margin: 0 5px 0 0;
     float: right;
     line-height: 29px;
   }

@@ -153,7 +153,8 @@ angular.module('sw.durationSelector', [])
 				minDate: '=',
 				maxDate: '=',
 				presets: '=',
-				duration: '='
+				duration: '=',
+				ngDisabled: '='
 			},
 			templateUrl: 'src/duration-selector.html',
 			replace: true,

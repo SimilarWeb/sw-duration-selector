@@ -129,8 +129,8 @@ angular.module('sw.durationSelector', [])
 			if (val) {
 				var duration = val.split('-');
 				if (duration.length > 1) {
-					var startMoment = moment(new Date(duration[0])),
-						endMoment = moment(new Date(duration[1]));
+					var startMoment = moment(new Date(duration[0].replace(".","-"))),
+						endMoment = moment(new Date(duration[1].replace(".","-")));
 					self.model = {startDate: startMoment, endDate: endMoment};
 					$scope.model = {displayText: startMoment.format(durationSelectorConfig.displayFormat) + ' - ' + endMoment.format(durationSelectorConfig.displayFormat) + ' (Custom)'};
 					$scope.showCustom = true;

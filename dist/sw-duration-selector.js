@@ -194,6 +194,7 @@ angular.module('sw.durationSelector', [])
 			}
 		}
 	});
+
 angular.module('sw.durationSelector').run(['$templateCache', function($templateCache) {
   'use strict';
 
@@ -227,7 +228,7 @@ angular.module('sw.durationSelector').run(['$templateCache', function($templateC
     "            <span class=\"monthPicker-year\" ng-class=\"{'is-disabled': !allowedYear(selectedYear + 1)}\" ng-click=\"selectedYear=selectedYear+1\">{{selectedYear + 1}} ></span>\n" +
     "        </div>\n" +
     "        <div class=\"monthPicker-months\">\n" +
-    "            <div class=\"monthPicker-month\" ng-class=\"{'is-selected': month == selectedDate.month && selectedYear == selectedDate.year, 'is-range': inRangeMonth(month), 'is-disabled': !allowedMonth(month)}\" ng-repeat=\"month in months\" ng-click=\"selectDate(month)\">{{month | monthShort}}</div>\n" +
+    "            <span class=\"monthPicker-month\" ng-class=\"{'is-selected': month == selectedDate.month && selectedYear == selectedDate.year, 'is-range': inRangeMonth(month), 'is-disabled': !allowedMonth(month)}\" ng-repeat=\"month in months\" ng-click=\"selectDate(month)\">{{month | monthShort}}</span>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"monthPicker-date\">\n" +

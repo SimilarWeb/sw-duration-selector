@@ -39,7 +39,11 @@
     font-size: 8px;
     margin: 0 5px 0 0;
     float: right;
-    line-height: 29px; }
+    line-height: 29px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    margin-top: -13px; }
 
 .durationSelector-popup {
   position: absolute;
@@ -110,15 +114,20 @@
 
 .monthPicker-box {
   border: 1px solid #DDDDDD;
-  padding: 3px;
-  margin: 0 4px; }
+  padding: 7px;
+  margin: 0 4px;
+  height: 100%;
+  float: left; }
 
 .monthPicker-date {
   text-align: center;
-  line-height: 46px; }
+  line-height: 46px;
+  float: left;
+  width: 100%; }
 
 .monthPicker-month {
   display: inline-block;
+  float: left;
   text-align: center;
   width: 72px;
   cursor: pointer; }
@@ -135,7 +144,7 @@
 .monthPicker-year {
   text-align: center;
   display: inline-block;
-  width: 72px;
+  width: 69px;
   color: #6F6F6F;
   cursor: default; }
   .monthPicker-year:first-child, .monthPicker-year:last-child {

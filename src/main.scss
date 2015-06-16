@@ -133,15 +133,20 @@
 }
 .monthPicker-box {
   border: 1px solid #DDDDDD;
-  padding: 3px;
+  padding: 7px;
   margin: 0 4px;
+  height: 100%;
+  float: left;
 }
 .monthPicker-date {
   text-align: center;
   line-height: 46px;
+  float: left;
+  width: 100%;
 }
 .monthPicker-month {
   display: inline-block;
+  float: left;
   text-align: center;
   width: 72px;
   cursor: pointer;
@@ -160,7 +165,7 @@
 .monthPicker-year {
   text-align: center;
   display: inline-block;
-  width: 72px;
+  width: 69px;
   color: #6F6F6F;
   cursor: default;
   &:first-child, &:last-child {

@@ -103,7 +103,7 @@ angular.module('sw.durationSelector', [])
 			}
 		}
 	})
-	.controller('durationSelectorCtrl', function ($scope, $timeout, durationSelectorConfig) {
+	.controller('durationSelectorCtrl', function ($scope, $element, $attrs, $document, durationSelectorConfig) {
 		var self = this;
 
 		this.model = {startDate: $scope.maxDate, endDate: $scope.maxDate};
@@ -145,6 +145,15 @@ angular.module('sw.durationSelector', [])
 			}
 		});
 
+		// for closing when clicking outside of the element
+		$document.on('click', function (e) {
+			if (!$element.find(e.target.localName).length) {
+				$scope.$apply(function () {
+					$scope.showPresets = false;
+				})
+			}
+		});
+
 	})
 	.directive('swDurationSelector', function ($document) {
 		return {
@@ -158,16 +167,6 @@ angular.module('sw.durationSelector', [])
 			},
 			templateUrl: 'src/duration-selector.html',
 			replace: true,
-			controller: 'durationSelectorCtrl',
-			link: function ($scope, $linkElement, $linkAttributes) {
-				// for closing when clicking outside of the element
-				$document.on('click', function (e) {
-					if (!$linkElement.find(e.target.localName).length) {
-						$scope.$apply(function () {
-							$scope.showPresets = false;
-						})
-					}
-				});
-			}
+			controller: 'durationSelectorCtrl'
 		}
 	});

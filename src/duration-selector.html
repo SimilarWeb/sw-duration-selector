@@ -1,5 +1,7 @@
 <div class="durationSelector {{options.cssClass}}">
+    <i class="sw-icon-calendar"></i>
     <span class="durationSelector-text" ng-class="{'is-active': showPresets, 'is-disabled': ngDisabled}" ng-click="showPresets = !showPresets">{{model.displayText}}</span>
+    <i class="sw-icon-selection-arrow-down"></i>
     <div class="durationSelector-popup" ng-class="{custom:showCustom}" ng-show="showPresets">
         <div class="durationSelector-customPicker" ng-show="showPresets && showCustom">
             <month-picker class="left" type="start" min-date="minDate" max-date="maxDate"></month-picker>

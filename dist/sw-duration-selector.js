@@ -126,7 +126,7 @@ angular.module('sw.durationSelector', [])
 			}
 		}
 	})
-	.controller('durationSelectorCtrl', function ($scope, $timeout, durationSelectorConfig) {
+	.controller('durationSelectorCtrl', function ($scope, $element, $attrs, $document, durationSelectorConfig) {
 		var self = this;
 
 		this.model = {startDate: $scope.maxDate, endDate: $scope.maxDate};
@@ -168,6 +168,15 @@ angular.module('sw.durationSelector', [])
 			}
 		});
 
+		// for closing when clicking outside of the element
+		$document.on('click', function (e) {
+			if (!$element.find(e.target.localName).length) {
+				$scope.$apply(function () {
+					$scope.showPresets = false;
+				})
+			}
+		});
+
 	})
 	.directive('swDurationSelector', function ($document) {
 		return {
@@ -181,17 +190,7 @@ angular.module('sw.durationSelector', [])
 			},
 			templateUrl: 'src/duration-selector.html',
 			replace: true,
-			controller: 'durationSelectorCtrl',
-			link: function ($scope, $linkElement, $linkAttributes) {
-				// for closing when clicking outside of the element
-				$document.on('click', function (e) {
-					if (!$linkElement.find(e.target.localName).length) {
-						$scope.$apply(function () {
-							$scope.showPresets = false;
-						})
-					}
-				});
-			}
+			controller: 'durationSelectorCtrl'
 		}
 	});
 
@@ -200,7 +199,9 @@ angular.module('sw.durationSelector').run(['$templateCache', function($templateC
 
   $templateCache.put('src/duration-selector.html',
     "<div class=\"durationSelector {{options.cssClass}}\">\n" +
+    "    <i class=\"sw-icon-calendar\"></i>\n" +
     "    <span class=\"durationSelector-text\" ng-class=\"{'is-active': showPresets, 'is-disabled': ngDisabled}\" ng-click=\"showPresets = !showPresets\">{{model.displayText}}</span>\n" +
+    "    <i class=\"sw-icon-selection-arrow-down\"></i>\n" +
     "    <div class=\"durationSelector-popup\" ng-class=\"{custom:showCustom}\" ng-show=\"showPresets\">\n" +
     "        <div class=\"durationSelector-customPicker\" ng-show=\"showPresets && showCustom\">\n" +
     "            <month-picker class=\"left\" type=\"start\" min-date=\"minDate\" max-date=\"maxDate\"></month-picker>\n" +

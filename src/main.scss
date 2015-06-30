@@ -1,4 +1,6 @@
-@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+// should be imported only in dev environment
+//@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+//@import "../sw-icons/swicons";
 
 .durationSelector {
   font-family: 'Open Sans', sans-serif;
@@ -6,10 +8,31 @@
   font-size: 14px;
   position: relative;
   width: 285px;
+  .is-selected {
+    background: #447FBD;
+    color: #ffffff;
+  }
+  .is-disabled {
+    opacity: 0.5;
+  }
+  .sw-icon-calendar {
+    font-size: 15px;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+  }
+  .sw-icon-selection-arrow-down {
+    font-size: 8px;
+    float: right;
+    line-height: 29px;
+    position: absolute;
+    right: 15px;
+    top: 2px;
+  }
 }
 .durationSelector-text {
   display: inline-block;
-  width: 270px;
+  width: 250px;
   box-sizing: content-box;
   cursor: pointer;
   color: #555;
@@ -17,7 +40,7 @@
   height: 30px;
   line-height: 26px;
   font-size: 14px;
-  padding: 0 6px;
+  padding: 0 5px 0 28px;
   background-color: #fff;
   border: 1px solid #CCC;
   vertical-align: middle;
@@ -31,24 +54,6 @@
     &:after {
       color: #508ECF;
     }
-  }
-  &:before {
-    font-family: 'swicons';
-    content: "\f11b";
-    font-size: 15px;
-    margin: 0 6px;
-  }
-  &:after {
-    font-family: 'swicons';
-    content: "\f163";
-    font-size: 8px;
-    margin: 0 5px 0 0;
-    float: right;
-    line-height: 29px;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    margin-top: -13px;
   }
 }
 .durationSelector-popup {
@@ -177,11 +182,4 @@
       color: #2B3D52;
     }
   }
-}
-.is-selected {
-  background: #447FBD;
-  color: #ffffff;
-}
-.is-disabled {
-  opacity: 0.5;
 }

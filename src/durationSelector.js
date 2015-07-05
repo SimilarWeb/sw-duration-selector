@@ -112,6 +112,9 @@ angular.module('sw.durationSelector', [])
 		};
 
 		$scope.setPreset = function (preset) {
+			if(!preset.enabled) {
+				return;
+			}
 			$scope.duration = preset.value;
 			$scope.showPresets = false;
 			$scope.showCustom = false;

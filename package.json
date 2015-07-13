@@ -9,7 +9,12 @@
     "grunt-sass": "^1.0.0",
     "load-grunt-tasks": "^3.1.0",
     "grunt-angular-templates": "~0.5.7",
-    "grunt-contrib-concat": "~0.5.1"
+    "grunt-contrib-concat": "~0.5.1",
+    "jasmine-core": "~2.3.4",
+    "karma-jasmine": "~0.3.6",
+    "karma": "~0.12.37",
+    "grunt-karma": "~0.11.2",
+    "karma-chrome-launcher": "~0.2.0"
   },
   "scripts": {
     "postinstall": "bower install"

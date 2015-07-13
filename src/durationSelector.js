@@ -4,7 +4,7 @@ angular.module('sw.durationSelector', [])
 		displayFormat: 'MMM, YYYY',
 		customFormat: 'YYYY.MM'
 	})
-	.service('durationSelectorService', function() {
+	.service('durationSelectorService', function (durationSelectorConfig) {
 		this.monthsRange = function () {
 			return Array.apply(null, {length: 12}).map(Number.call, Number);
 		};
@@ -19,6 +19,14 @@ angular.module('sw.durationSelector', [])
 		this.monthInRange = function (moment, start, end) {
 			return moment.isBetween(start, end, 'month') || moment.isSame(start, 'month') || moment.isSame(end, 'month');
 		};
+
+		this.parseDate = function (string) {
+			return new Date(string.replace('.','-'));
+		};
+
+		this.customDuration = function (customDurationObject) {
+			return customDurationObject.startDate.format(durationSelectorConfig.customFormat) + '-' + customDurationObject.endDate.format(durationSelectorConfig.customFormat);
+		};
 	})
 	.filter('monthShort', function() {
 		return function(value) {
@@ -30,7 +38,7 @@ angular.module('sw.durationSelector', [])
 			return moment().year(value.year).month(value.month).format('MMMM YYYY');
 		};
 	})
-	.directive('monthPicker', function (durationSelectorService, $timeout) {
+	.directive('monthPicker', function (durationSelectorService) {
 		return {
 			restrict: 'AE',
 			require: '^swDurationSelector',
@@ -43,7 +51,7 @@ angular.module('sw.durationSelector', [])
 			replace: true,
 			link: function ($scope, $linkElement, $linkAttributes, ctrl) {
 				var type = $scope.type,
-					model = ctrl.model;
+					model = ctrl.customModel;
 
 				// populate month-picker years and months
 				$scope.years = durationSelectorService.yearsRange($scope.minDate.year(), $scope.maxDate.year());
@@ -88,7 +96,7 @@ angular.module('sw.durationSelector', [])
 					return durationSelectorService.monthInRange(date, model.startDate, model.endDate);
 				};
 
-				$scope.$watch(function(){return ctrl.model;}, function (val) {
+				$scope.$watch(function(){return ctrl.customModel;}, function (val) {
 					$scope.selectedDate = {
 						year: val[type + 'Date'].year(),
 						month: val[type + 'Date'].month()
@@ -103,12 +111,12 @@ angular.module('sw.durationSelector', [])
 			}
 		}
 	})
-	.controller('durationSelectorCtrl', function ($scope, $element, $attrs, $document, durationSelectorConfig) {
+	.controller('durationSelectorCtrl', function ($scope, durationSelectorService, durationSelectorConfig) {
 		var self = this;
 
-		this.model = {startDate: $scope.maxDate, endDate: $scope.maxDate};
+		this.customModel = {startDate: $scope.maxDate, endDate: $scope.maxDate};
 		this.updateModel = function (value) {
-			self.model = value;
+			self.customModel = value;
 		};
 
 		$scope.setPreset = function (preset) {
@@ -122,7 +130,7 @@ angular.module('sw.durationSelector', [])
 
 		$scope.setCustom = function () {
 			if ($scope.showCustom) {
-				$scope.duration = self.model.startDate.format(durationSelectorConfig.customFormat) + '-' + self.model.endDate.format(durationSelectorConfig.customFormat);
+				$scope.duration = durationSelectorService.customDuration(self.customModel);
 				$scope.showPresets = false;
 			}
 			else $scope.showCustom = true;
@@ -132,14 +140,14 @@ angular.module('sw.durationSelector', [])
 			if (val) {
 				var duration = val.split('-');
 				if (duration.length > 1) {
-					var startMoment = moment(new Date(duration[0].replace(".","-"))),
-						endMoment = moment(new Date(duration[1].replace(".","-")));
-					self.model = {startDate: startMoment, endDate: endMoment};
+					var startMoment = moment(durationSelectorService.parseDate(duration[0])),
+						endMoment = moment(durationSelectorService.parseDate(duration[1]));
+					self.customModel = {startDate: startMoment, endDate: endMoment};
 					$scope.model = {displayText: startMoment.format(durationSelectorConfig.displayFormat) + ' - ' + endMoment.format(durationSelectorConfig.displayFormat) + ' (Custom)'};
 					$scope.showCustom = true;
 				}
 				else {
-					self.model = {startDate: $scope.maxDate, endDate: $scope.maxDate};
+					self.customModel = {startDate: $scope.maxDate, endDate: $scope.maxDate};
 					$scope.model = $scope.presets.find(function(element) {
 						return element.value == duration[0];}
 					);
@@ -147,16 +155,6 @@ angular.module('sw.durationSelector', [])
 				}
 			}
 		});
-
-		// for closing when clicking outside of the element
-		$document.on('click', function (e) {
-			if (!$element.find(e.target.localName).length) {
-				$scope.$apply(function () {
-					$scope.showPresets = false;
-				})
-			}
-		});
-
 	})
 	.directive('swDurationSelector', function ($document) {
 		return {
@@ -170,6 +168,16 @@ angular.module('sw.durationSelector', [])
 			},
 			templateUrl: 'src/duration-selector.html',
 			replace: true,
-			controller: 'durationSelectorCtrl'
+			controller: 'durationSelectorCtrl',
+			link: function ($scope, $element, $attrs) {
+				// for closing when clicking outside of the element
+				$document.on('click', function (e) {
+					if (!$element.find(e.target.localName).length) {
+						$scope.$apply(function () {
+							$scope.showPresets = false;
+						})
+					}
+				});
+			}
 		}
 	});

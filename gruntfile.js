@@ -59,6 +59,23 @@ module.exports = function (grunt) {
                 files: ['src/*.scss'],
                 tasks: ['sass']
             }
+        },
+
+        karma: {
+            unit: {
+                options: {
+                    files: [
+                        'bower_components/angular/angular.js',
+                        'bower_components/angular-mocks/angular-mocks.js',
+                        'bower_components/moment/moment.js',
+                        'dist/sw-duration-selector.js',
+                        'test/*.js'
+                    ],
+                    frameworks: ['jasmine'],
+                    browsers: ['Chrome'],// 'PhantomJS'],
+                    singleRun: true
+                }
+            }
         }
     });
     grunt.registerTask('default', ['release', 'connect', 'watch']);

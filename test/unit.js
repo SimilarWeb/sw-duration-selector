@@ -36,8 +36,11 @@ describe('durationSelectorService', function () {
 		expect(service.monthInRange(moment().year(2015).month(11), start, end)).toBe(false);
 	});
 
-	it('parseDate should create Date from string', function() {
-		expect(service.parseDate('2015.05')).toEqual(new Date('2015-05'));
+	it('newMoment should create Date from string', function() {
+		var yearMonthString = '2015.05',
+			parts = yearMonthString.split('.'),
+			momentDate = moment().year(parseInt(parts[0])).month(parseInt(parts[1])-1);
+		expect(service.newMoment(yearMonthString)).toEqual(momentDate);
 	});
 
 	it('customDuration should create Date from string', function() {

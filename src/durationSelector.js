@@ -20,8 +20,9 @@ angular.module('sw.durationSelector', [])
 			return moment.isBetween(start, end, 'month') || moment.isSame(start, 'month') || moment.isSame(end, 'month');
 		};
 
-		this.parseDate = function (string) {
-			return new Date(string.replace('.','-'));
+		this.newMoment = function (yearMonthString) {
+			var date = yearMonthString.split('.');
+			return moment().year(parseInt(date[0])).month(parseInt(date[1])-1);
 		};
 
 		this.customDuration = function (customDurationObject) {
@@ -140,8 +141,8 @@ angular.module('sw.durationSelector', [])
 			if (val) {
 				var duration = val.split('-');
 				if (duration.length > 1) {
-					var startMoment = moment(durationSelectorService.parseDate(duration[0])),
-						endMoment = moment(durationSelectorService.parseDate(duration[1]));
+					var startMoment = durationSelectorService.newMoment(duration[0]),
+						endMoment = durationSelectorService.newMoment(duration[1]);
 					self.customModel = {startDate: startMoment, endDate: endMoment};
 					$scope.model = {displayText: startMoment.format(durationSelectorConfig.displayFormat) + ' - ' + endMoment.format(durationSelectorConfig.displayFormat) + ' (Custom)'};
 					$scope.showCustom = true;
